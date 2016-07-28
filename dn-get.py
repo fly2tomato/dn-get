@@ -15,18 +15,19 @@
 import urllib
 import httplib
 import urllib2
+import re
 
 #构建headers
 user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
 headers = {"User-Agent": user_agent,
 "Content-Type": "application/x-www-form-urlencoded",
 "Accept": "*/*",
-"Referer": "http://www.dnvod.eu/Movie/Readyplay.aspx?id=2Yzcti9rYjY%3d",
+"Referer": "http://www.dnvod.eu/",
 "Accept-Encoding": "",
 "Accept-Language": "de-DE,de;q=0.8,en-US;q=0.6,en;q=0.4,zh-CN;q=0.2,zh;q=0.2,zh-TW;q=0.2,fr-FR;q=0.2,fr;q=0.2",
 "X-Requested-With": "XMLHttpRequest",
-"DNT": "1",
-"Cookie": "__cfduid=d88efcba63bd1bdabb48eb36678b9da0d1460149942"}
+"DNT": "1",}
+#"Cookie": "__cfduid="}
 
 inputurl = raw_input('输入多瑙观看页面URL：\n')
 urlFir = inputurl
@@ -58,9 +59,17 @@ filttedstring = tobefilttedstring[start_id:end_id]#获得id
 #print para1
 para2 = filttedstring#id
 
-
 urlSec = 'http://www.dnvod.eu/'+para1+'/GetResource.ashx?id='+para2+'&type=htm'
 
 requestSec = urllib2.Request(urlSec,None,headers)
 responseSec = urllib2.urlopen(requestSec)
-print "\n~~~~~~~~播放地址（直接复制到浏览器打开或者用迅雷下载）：~~~~~~~~\n"+responseSec.read()
+real_url = responseSec.read()
+print "\n~~~~~~~~播放地址（直接复制到浏览器打开或者用迅雷下载）：~~~~~~~~\n"
+if cmp(para1,"Adult") == 0:
+    print real_url
+else:
+    pattern = re.compile(r'(\d||\d\d)\.mp4')
+    num = re.split(pattern,real_url)
+    hdurl = num[0]+'hd-'+num[1]+'.mp4'+num[2]
+    print "低清版："+real_url
+    print "高清版："+hdurl
