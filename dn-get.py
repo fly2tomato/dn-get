@@ -55,8 +55,6 @@ else:
 end_id = index_3d_String+3
 filttedstring = tobefilttedstring[start_id:end_id]#获得id
 #print filttedstring
-
-para1 = urlFir[20:25]#Adult or Movie
 #print para1
 para2 = filttedstring#id
 
