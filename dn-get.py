@@ -22,19 +22,19 @@ user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
 headers = {"User-Agent": user_agent,
 "Content-Type": "application/x-www-form-urlencoded",
 "Accept": "*/*",
-"Referer": "http://www.dnvod.eu/",
+"Referer": "http://www.dnvod.eu/Movie/Readyplay.aspx?id=jydSM%2fudfCo%3d",
 "Accept-Encoding": "",
 "Accept-Language": "de-DE,de;q=0.8,en-US;q=0.6,en;q=0.4,zh-CN;q=0.2,zh;q=0.2,zh-TW;q=0.2,fr-FR;q=0.2,fr;q=0.2",
 "X-Requested-With": "XMLHttpRequest",
-"DNT": "1",}
-#"Cookie": "__cfduid="}
+"DNT": "1",
+"Cookie": "__cfduid=d88efcba63bd1bdabb48eb36678b9da0d1460149942; user=Dulj5-GykCL8cQ82D6MfgFfu6WiolCGDDs5900JggKjVGwpDC6vMLMdlAPeaYujtWFodXNji3nDaiaTLeelU9AUCYXmranJiXNMmomCVPWto3p7874fe-EozsbEctnYuyWO2xvsRLhAIBQaQ2SIiCgGxGK37e7a7VMSGwZTG8vF4fcKLVp2KRd9PYXqe6uDbCY7fHQnA6DmPZyFOcZ7g04b2nRnd8fQe2ImGSU5XTbuM8fYZPL91aVWU-nSzMsFhtsaPXQ2"}
 
 inputurl = raw_input('输入多瑙观看页面URL：\n')
 urlFir = inputurl
 requestFir = urllib2.Request(urlFir,None,headers)
 responseFir  = urllib2.urlopen(requestFir)
 data_responseFir = responseFir.read()
-#print data_responseFir
+print data_responseFir
 
 locatedString_lid = "lid:"
 index_lid_String = data_responseFir.index(locatedString_lid)
