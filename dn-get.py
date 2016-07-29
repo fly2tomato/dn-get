@@ -66,10 +66,14 @@ responseSec = urllib2.urlopen(requestSec)
 real_url = responseSec.read()
 print "\n~~~~~~~~播放地址（直接复制到浏览器打开或者用迅雷下载）：~~~~~~~~\n"
 if cmp(para1,"Adult") == 0:
-    print real_url
+    pattern0 = re.compile(r'(\d||\d\d)\.mp4')
+    num0 = re.split(pattern0,real_url)
+    hdurl = num0[0]+'1'+'.mp4'+num0[2]
+    print '预览版: \n'+real_url
+    print '完整版: \n'+hdurl
 else:
-    pattern = re.compile(r'(\d||\d\d)\.mp4')
+    pattern = re.compile(r'(\d||\d\d||\d\d\d||\d\d\d\d||\d\d\d\d\d||\d\d\d\d\d\d||\d\d\d\d\d\d\d||\d\d\d\d\d\d\d\d)\.mp4')
     num = re.split(pattern,real_url)
     hdurl = num[0]+'hd-'+num[1]+'.mp4'+num[2]
-    print "低清版："+real_url
-    print "高清版："+hdurl
+    print "低清版: \n"+real_url
+    print "高清版: \n"+hdurl
