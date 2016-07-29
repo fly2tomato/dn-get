@@ -34,7 +34,7 @@ urlFir = inputurl
 requestFir = urllib2.Request(urlFir,None,headers)
 responseFir  = urllib2.urlopen(requestFir)
 data_responseFir = responseFir.read()
-#print data_responseFir
+print data_responseFir
 
 locatedString_lid = "lid:"
 index_lid_String = data_responseFir.index(locatedString_lid)
