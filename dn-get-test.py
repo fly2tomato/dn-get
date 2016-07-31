@@ -60,7 +60,6 @@ print filttedstring
 para2 = filttedstring#id
 
 urlSec = 'http://www.dnvod.eu/'+para1+'/GetResource.ashx?id='+para2+'&type=htm'
-
 requestSec = urllib2.Request(urlSec,None,headers)
 responseSec = urllib2.urlopen(requestSec)
 real_url = responseSec.read()
