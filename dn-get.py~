@@ -64,8 +64,6 @@ urlSec = 'http://www.dnvod.eu/'+para1+'/GetResource.ashx?id='+para2+'&type=htm'
 requestSec = urllib2.Request(urlSec,None,headers)
 responseSec = urllib2.urlopen(requestSec)
 real_url = responseSec.read()
-print real_url
-
 print "\n~~~~~~~~播放地址（直接复制到浏览器打开或者用迅雷下载）：~~~~~~~~\n"
 if cmp(para1,"Adult") == 0:
     pattern0 = re.compile(r'(\d||\d\d)\.mp4')
