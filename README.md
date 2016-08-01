@@ -2,12 +2,14 @@ by fly2tomato
 
 # issues
 
-  返回“-3”？
+  返回“-3”？ 表示key不对  
+  返回“-4”？ ASP.NET_SessionId已过期需要重新获取
 
 
 # update
 
  【29.07.2016】增加了高清片源url
+ 【01.08.2016】自动获取ASP.NET_SessionId（该值是否作为cookie中唯一判断标准，待检验）
 
 # 实现功能：
 
@@ -23,6 +25,4 @@ by fly2tomato
 
   3，输入复制的url，回车
 
-  4，获得真实播放地址，
-
-  5，对于av，获得的地址是2min预览版，请将url中的'2'换成'1'，如'cr-snyncjp-2.mp4'换成'cr-snyncjp-1.mp4'
+  4，获得真实播放地址，command+点击播放地址，直接调用默认浏览器开始播放
