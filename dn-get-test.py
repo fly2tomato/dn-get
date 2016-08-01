@@ -16,13 +16,30 @@ import urllib
 import httplib
 import urllib2
 import re
+import requests
+
+inputurl = raw_input('\n输入多瑙观看页面URL：\n')
+urlFir = inputurl
+
+#获取ASP.NET_SessionId
+s=requests.Session()
+url1 = 'http://www.dnvod.eu'
+url2 = 'http://www.dnvod.eu/Movie/Readyplay.aspx?id=7COqHhPaRZg%3d'
+s.get(url1)
+r1 = s.get(url2)
+header = r1.headers
+rrrr = [header]
+#print rrrr[0]['Set-Cookie']
+reg = r'ASP.NET_SessionId=(.*); path=/; HttpOnly'
+partern =  re.compile(reg)
+sessionID = partern.findall(rrrr[0]['Set-Cookie'])
 
 #构建headers
 user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
 #ASP.NET_SessionId有时间有效性，若程序返回-4 则说明ASP.NET_SessionId已过期需要重新获取，若返回-3则表示key不对
 # cookies1 = '__cfduid=d58922e790c902ec87ff7384dcfc0b2451469995023; _gat=1; ASP.NET_SessionId=2ueljjviy4takln2vcmds345; jiathis_rdc=%7B%22http%3A//www.dnvod.eu/Adult/detail.aspx%3Fid%3D0cY7CF0zIt4%253d%22%3A0%7C1469995032649%2C%22http%3A//www.dnvod.eu/Adult/Readyplay.aspx%3Fid%3D%252bJRDqHAbXxw%253d%22%3A%220%7C1469995033515%22%7D; _ga=GA1.2.733351123.1469995023'
 # cookies2 = '__cfduid=d58922e790c902ec87ff7384dcfc0b2451469995023; _gat=1; ASP.NET_SessionId=2ueljjviy4takln2vcmds345; _ga=GA1.2.733351123.1469995023'
-cookies = 'ASP.NET_SessionId=mbve12f2dazgev45wh3fln45'
+cookies = 'ASP.NET_SessionId='+sessionID[0]
 
 headers = {"User-Agent": user_agent,
 "Content-Type": "application/x-www-form-urlencoded",
@@ -50,8 +67,7 @@ headers2 = {"Host": "www.dnvod.eu",
 "Connection": "keep-alive",
 "Cookie": cookies}
 
-inputurl = raw_input('输入多瑙观看页面URL：\n')
-urlFir = inputurl
+
 requestFir = urllib2.Request(urlFir,None,headers)
 responseFir  = urllib2.urlopen(requestFir)
 data_responseFir = responseFir.read()
@@ -62,7 +78,7 @@ reg     = r'id:.*\'(.*)\','
 pattern = re.compile(reg)
 result  = pattern.findall(data_responseFir)
 para2   = result[0]
-print "\nID：  "+para2
+
 urlSec = 'http://www.dnvod.eu/'+para1+'/GetResource.ashx?id='+para2+'&type=htm'
 #data = 'key=4c4e0393d0b0444cb72b0dcd9bc13417'
 
@@ -70,13 +86,16 @@ regkeyString = r'key:.*\'(.*)\','
 patternkeyString = re.compile(regkeyString)
 resultkeyString = patternkeyString.findall(data_responseFir)
 keyString = resultkeyString[0]
-print '\nKey： '+keyString
+
 
 data = urllib.urlencode({'key':keyString})
 requestSec = urllib2.Request(urlSec,data,headers2)
 responseSec = urllib2.urlopen(requestSec)
 real_url = responseSec.read()
 #print real_url
+print "\nID:                 "+para2
+print '\nKey:                '+keyString
+print '\nASP.NET_SessionId:  '+sessionID[0]
 
 if real_url == "-4":
     print 'ASP.NET_SessionId已过期，请重新获取'
