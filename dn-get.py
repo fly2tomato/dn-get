@@ -104,7 +104,7 @@ elif real_url == "-3":
 else:
     print "\n~~~~~~~~播放地址（直接复制到浏览器打开或者用迅雷下载）：~~~~~~~~\n"
     if cmp(para1,"Adult") == 0:
-        pattern0 = re.compile(r'(\d||\d\d)\.mp4')
+        pattern0 = re.compile(r'(\d||\d\d||\d_\d)\.mp4')
         num0 = re.split(pattern0,real_url)
         hdurl = num0[0]+'1'+'.mp4'+num0[2]
         if hdurl == real_url:
