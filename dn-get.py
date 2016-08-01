@@ -17,6 +17,7 @@ import httplib
 import urllib2
 import re
 import requests
+import os
 
 inputurl = raw_input('\n输入多瑙观看页面URL：\n')
 urlFir = inputurl
@@ -118,3 +119,9 @@ else:
         hdurl = num[0]+'hd-'+num[1]+'.mp4'+num[2]
         print "低清版: \n"+real_url+'\n'
         print "高清版: \n"+hdurl+'\n'
+
+bDownload = raw_input('\n是否需要下载视频到当前目录？(y/n)')
+if bDownload == 'y':
+    os.system('axel -a -n 10 '+hdurl)
+else:
+    print '\nlove & peace'
