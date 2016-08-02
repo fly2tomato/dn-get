@@ -18,9 +18,7 @@ import urllib2
 import re
 import requests
 import os
-
-inputurl = raw_input('\n输入多瑙观看页面URL：\n')
-urlFir = inputurl
+import sys
 
 #获取ASP.NET_SessionId
 s=requests.Session()
@@ -69,12 +67,55 @@ headers2 = {"Host": "www.dnvod.eu",
 "Cookie": cookies}
 
 
-requestFir = urllib2.Request(urlFir,None,headers)
+
+inputArg = raw_input('\n1,直接输入多瑙观看页面URL，请按1\n2,搜索影片，请按2\n请输入：')
+if inputArg == '1':
+    inputurl = raw_input('\n输入多瑙观看页面URL：\n')
+    playUrl = inputurl
+elif inputArg == '2':
+    inputMovieName = raw_input('\n查找视频名称：')
+    urlSearch = 'http://www.dnvod.eu/Movie/Search.aspx?tags='+inputMovieName
+    print urlSearch
+    searchRequest = urllib2.Request(urlSearch,None,headers)
+    searchResponse = urllib2.urlopen(searchRequest)
+    searchdataResponse = searchResponse.read()
+    print searchdataResponse
+    searchReg = r'<a href="(.*%3d)">'
+    searchPattern = re.compile(searchReg)
+    searchResult = searchPattern.findall(searchdataResponse)
+    searchRegName = r'3d" title="(.*)">'
+    searchPatternName = re.compile(searchRegName)
+    searchResultName = searchPatternName.findall(searchdataResponse)
+    #print searchResult
+    print('搜索到'+str(len(searchResult))+'个结果：\n')
+    for i in range(len(searchResultName)):
+        print str(i+1)+': '+searchResultName[i]+'\n'
+    whichResultStr = raw_input('请输入数字：')
+    whichResultInt = int(whichResultStr)-1
+    searchUrl = 'http://www.dnvod.eu'+searchResult[whichResultInt]
+    print searchUrl
+    detailRequest = urllib2.Request(searchUrl,None,headers)
+    detailResponse = urllib2.urlopen(detailRequest)
+    detaildataResponse = detailResponse.read()
+    detailReg = r'<li><div class="bfan-n"><a href="(.*)" target="_blank">.*</a></div></li>'
+    detailPattern = re.compile(detailReg)
+    detailResult = detailPattern.findall(detaildataResponse)
+    whichEpisodeStr = raw_input("一共有"+str(len(detailResult))+"集，请选择集数：")
+    whichEpisodeInt = int(whichEpisodeStr)-1
+    playUrl = 'http://www.dnvod.eu'+detailResult[whichEpisodeInt]
+    print '播放页面URL：\n'+playUrl
+else:
+    sys.exit(0)
+
+
+
+requestFir = urllib2.Request(playUrl,None,headers)
 responseFir  = urllib2.urlopen(requestFir)
 data_responseFir = responseFir.read()
 #print data_responseFir
 
-para1 = urlFir[20:25]#Adult or Movie
+para1 = playUrl[20:25]#Adult or Movie
+#print para1
 reg     = r'id:.*\'(.*)\','
 pattern = re.compile(reg)
 result  = pattern.findall(data_responseFir)
@@ -103,7 +144,7 @@ if real_url == "-4":
 elif real_url == "-3":
     print 'key错误，请重新设置key'
 else:
-    print "\n~~~~~~~~播放地址（直接复制到浏览器打开或者用迅雷下载）：~~~~~~~~\n"
+    print "\n~~~~~~~~播放地址（直接复制到浏览器打开或者用工具下载）：~~~~~~~~\n"
     if cmp(para1,"Adult") == 0:
         pattern0 = re.compile(r'(\d||\d\d||\d_\d)\.mp4')
         num0 = re.split(pattern0,real_url)
@@ -116,12 +157,13 @@ else:
     else:
         pattern = re.compile(r'(\d||\d\d||\d\d\d||\d\d\d\d||\d\d\d\d\d||\d\d\d\d\d\d||\d\d\d\d\d\d\d||\d\d\d\d\d\d\d\d)\.mp4')
         num = re.split(pattern,real_url)
+        #print num
         hdurl = num[0]+'hd-'+num[1]+'.mp4'+num[2]
         print "低清版: \n"+real_url+'\n'
         print "高清版: \n"+hdurl+'\n'
 
 bDownload = raw_input('\n是否需要下载视频到当前目录？(y/n)')
 if bDownload == 'y':
-    os.system('axel -a -n 10 '+hdurl)
+    os.system('axel -a -n 5 '+hdurl)
 else:
-    print '\nlove & peace'
+    print '\nlove & peace\nfly2tomato\n'
