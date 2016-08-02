@@ -75,10 +75,11 @@ if inputArg == '1':
 elif inputArg == '2':
     inputMovieName = raw_input('\n查找视频名称：')
     urlSearch = 'http://www.dnvod.eu/Movie/Search.aspx?tags='+inputMovieName
+    print urlSearch
     searchRequest = urllib2.Request(urlSearch,None,headers)
     searchResponse = urllib2.urlopen(searchRequest)
     searchdataResponse = searchResponse.read()
-    #print dataResponse
+    print searchdataResponse
     searchReg = r'<a href="(.*%3d)">'
     searchPattern = re.compile(searchReg)
     searchResult = searchPattern.findall(searchdataResponse)
