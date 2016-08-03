@@ -9,7 +9,7 @@ by fly2tomato
 # update
 
  【29.07.2016】增加了高清片源url  
- 【01.08.2016】自动获取ASP.NET_SessionId（该值是否作为cookie中唯一判断标准，待检验）
+ 【01.08.2016】自动获取ASP.NET_SessionId（该值是否作为cookie中唯一判断标准，待检验）  
  【02.08.2016】发布windows下的可执行文件dn-get.exe
 
 # 实现功能：
