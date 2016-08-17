@@ -186,4 +186,8 @@ bDownload = raw_input('\n是否需要下载视频到当前目录？(y/n)')
 if bDownload == 'y':
     os.system('axel -a -n 5 '+hdurl)
 else:
-    print '\nlove & peace\nfly2tomato\n'
+    isPlay = raw_input('\n是否需要在线播放该视频？(y/n)')
+    if isPlay == 'y':
+        os.system('mplayer '+hdurl)
+    else:
+	print '\nlove & peace\nfly2tomato\n'
