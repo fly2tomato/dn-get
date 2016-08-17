@@ -96,8 +96,10 @@ while(loopString):
         searchResultName = searchPatternName.findall(searchdataResponse)
         print searchResult
         print('搜索到'+str(len(searchResult))+'个结果：\n')
+
         for i in range(len(searchResultName)):
             print str(i+1)+': '+searchResultName[i]+'\n'
+            
         whichResultStr = raw_input('请输入数字：')
         whichResultInt = int(whichResultStr)-1
 

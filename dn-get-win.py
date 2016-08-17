@@ -72,47 +72,69 @@ headers2 = {"Host": "www.dnvod.eu",
 
 
 
-inputArg = raw_input('\n1,直接输入多瑙观看页面URL，请按1\n2,搜索影片，请按2\n请输入：')
-if inputArg == '1':
-    inputurl = raw_input('\n输入多瑙观看页面URL：\n')
-    playUrl = inputurl
-elif inputArg == '2':
-    inputMovieName = raw_input('\n查找视频名称：')
-    iMNUni = inputMovieName.decode('gbk')
-    iMNUtf8 = iMNUni.encode('utf-8')
-    urlSearch = 'http://www.dnvod.eu/Movie/Search.aspx?tags='+iMNUtf8
-    #print urlSearch
-    searchRequest = urllib2.Request(urlSearch,None,headers)
-    searchResponse = urllib2.urlopen(searchRequest)
-    searchdataResponse = searchResponse.read()
-    #print searchdataResponse
-    searchReg = r'<a href="(.*%3d)">'
-    searchPattern = re.compile(searchReg)
-    searchResult = searchPattern.findall(searchdataResponse)
-    searchRegName = r'3d" title="(.*)">'
-    searchPatternName = re.compile(searchRegName)
-    searchResultName = searchPatternName.findall(searchdataResponse)
-    #print searchResult
-    print('\n搜索到'+str(len(searchResult))+'个结果：\n')
-    for i in range(len(searchResultName)):
-        print str(i+1)+': '+searchResultName[i].decode('utf-8').encode('gbk')+'\n'
-    whichResultStr = raw_input('请输入数字：')
-    whichResultInt = int(whichResultStr)-1
-    searchUrl = 'http://www.dnvod.eu'+searchResult[whichResultInt]
-    #print searchUrl
-    detailRequest = urllib2.Request(searchUrl,None,headers)
-    #print detailRequest
-    detailResponse = urllib2.urlopen(detailRequest)
-    detaildataResponse = detailResponse.read()
-    detailReg = r'<li><div class="bfan-n"><a href="(.*)" target="_blank">.*</a></div></li>'
-    detailPattern = re.compile(detailReg)
-    detailResult = detailPattern.findall(detaildataResponse)
-    whichEpisodeStr = raw_input("一共有"+str(len(detailResult))+"集，请选择集数：")
-    whichEpisodeInt = int(whichEpisodeStr)-1
-    playUrl = 'http://www.dnvod.eu'+detailResult[whichEpisodeInt]
-    print '\n播放页面URL：\n'+playUrl
-else:
-    sys.exit(0)
+loopString = True
+while(loopString):
+    inputArg = raw_input('\n1,直接输入多瑙观看页面URL，请按1\n2,搜索影片，请按2\n请输入：')
+    if inputArg == '1':
+        inputurl = raw_input('\n输入多瑙观看页面URL：\n')
+        playUrl = inputurl
+        loopString = False
+    elif inputArg == '2':
+        inputMovieName = raw_input('\n查找视频名称：')
+        iMNUni = inputMovieName.decode('gbk')
+        iMNUtf8 = iMNUni.encode('utf-8')
+        if inputMovieName[0:2] == 'av':    
+            urlSearch = 'http://www.dnvod.eu/Adult/Search.aspx?tags='+iMNUtf8[2:len(iMNUtf8)]
+            #print urlSearch
+            searchRequest = urllib2.Request(urlSearch,None,headers)
+            searchResponse = urllib2.urlopen(searchRequest)
+            searchdataResponse = searchResponse.read()
+            #print searchdataResponse
+            searchReg = r'<a href="(.*%3d)">'
+        else:
+            urlSearch = 'http://www.dnvod.eu/Movie/Search.aspx?tags='+iMNUtf8
+            searchRequest = urllib2.Request(urlSearch,None,headers)
+            searchResponse = urllib2.urlopen(searchRequest)
+            searchdataResponse = searchResponse.read()
+            #print searchdataResponse
+            searchReg = r'<a href="/\w(.*%3d)">'
+        searchPattern = re.compile(searchReg)
+        searchResult = searchPattern.findall(searchdataResponse)
+        searchRegName = r'3d" title="(.*)">'
+        searchPatternName = re.compile(searchRegName)
+        searchResultName = searchPatternName.findall(searchdataResponse)
+        #print searchResult
+        print('\n搜索到'+str(len(searchResult))+'个结果：\n')
+    
+        for i in range(len(searchResultName)):
+            print str(i+1)+': '+searchResultName[i].decode('utf-8').encode('gbk')+'\n'
+
+        whichResultStr = raw_input('请输入数字：')
+        whichResultInt = int(whichResultStr)-1
+    
+        if inputMovieName[0:2] == 'av':
+            searchUrl = 'http://www.dnvod.eu/Adult/'+searchResult[whichResultInt]
+        else:
+            searchUrl = 'http://www.dnvod.eu/M'+searchResult[whichResultInt]
+    
+        #print searchUrl
+        detailRequest = urllib2.Request(searchUrl,None,headers)
+        #print detailRequest
+        detailResponse = urllib2.urlopen(detailRequest)
+        detaildataResponse = detailResponse.read()
+        detailReg = r'<li><div class="bfan-n"><a href="(.*)" target="_blank">.*</a></div></li>'
+        detailPattern = re.compile(detailReg)
+        detailResult = detailPattern.findall(detaildataResponse)
+        whichEpisodeStr = raw_input("一共有"+str(len(detailResult))+"集，请选择集数：")
+        whichEpisodeInt = int(whichEpisodeStr)-1
+        if inputMovieName[0:2] == 'av':
+            playUrl = 'http://www.dnvod.eu/Adult/'+detailResult[whichEpisodeInt]
+        else:
+            playUrl = 'http://www.dnvod.eu'+detailResult[whichEpisodeInt]
+        print '\n播放页面URL：\n'+playUrl
+        loopString = False
+    else:
+        print '\n输入错误，请重新输入'
 
 
 
