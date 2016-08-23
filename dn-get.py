@@ -99,7 +99,7 @@ while(loopString):
 
         for i in range(len(searchResultName)):
             print str(i+1)+': '+searchResultName[i]+'\n'
-            
+
         whichResultStr = raw_input('请输入数字：')
         whichResultInt = int(whichResultStr)-1
 
@@ -113,7 +113,7 @@ while(loopString):
         detailRequest = urllib2.Request(searchUrl,None,headers)
         detailResponse = urllib2.urlopen(detailRequest)
         detaildataResponse = detailResponse.read()
-        detailReg = r'<li><div class="bfan-n"><a href="(.*)" target="_blank">.*</a></div></li>'
+        detailReg = r'<li><div class="bfan-n.*"><a href="(.*)" target="_blank">.*</a></div></li>'
         detailPattern = re.compile(detailReg)
         detailResult = detailPattern.findall(detaildataResponse)
         whichEpisodeStr = raw_input("一共有"+str(len(detailResult))+"集，请选择集数：")
