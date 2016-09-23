@@ -117,17 +117,21 @@ while(loopString):
         whichResultInt = int(whichResultStr)-1
 
 
+        filmIdReg = r'id=(.*%3d)'
+        filmIdPattern = re.compile(filmIdReg)
+        filmIdResult = filmIdPattern.findall(searchResult[whichResultInt])
+        print filmIdResult
         if inputMovieName[0:2] == 'av':
-    	    searchUrl = 'http://www.dnvod.eu/Adult/'+searchResult[whichResultInt]
+    	    searchUrl = 'http://www.dnvod.eu/Adult/detail.aspx?id='+filmIdResult[0]
         else:
-    	    searchUrl = 'http://www.dnvod.eu/Movie/'+searchResult[whichResultInt]
+    	    searchUrl = 'http://www.dnvod.eu/Movie/detail.aspx?id='+filmIdResult[0]
 
         print searchResult[whichResultInt]
         print searchUrl
         detailRequest = urllib2.Request(searchUrl,None,headers)
         detailResponse = urllib2.urlopen(detailRequest)
         detaildataResponse = detailResponse.read()
-        detailReg = r'<li><div class="bfan-n.*"><a href="(.*)" target="_blank">.*</a></div></li>'
+        detailReg = r'<li><div class=".*"><a href="(.*)"  target="_blank">.*</a></div></li>'
         detailPattern = re.compile(detailReg)
         detailResult = detailPattern.findall(detaildataResponse)
         whichEpisodeStr = raw_input("一共有"+str(len(detailResult))+"集，请选择集数：")

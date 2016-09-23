@@ -116,20 +116,24 @@ while(loopString):
         whichResultStr = raw_input('请输入数字：')
         whichResultInt = int(whichResultStr)-1
 
-
+        filmIdReg = r'id=(.*%3d)'
+        filmIdPattern = re.compile(filmIdReg)
+        filmIdResult = filmIdPattern.findall(searchResult[whichResultInt])
+        #print filmIdResult
         if inputMovieName[0:2] == 'av':
-    	    searchUrl = 'http://www.dnvod.eu/Adult/'+searchResult[whichResultInt]
+    	    searchUrl = 'http://www.dnvod.eu/Adult/detail.aspx?id='+filmIdResult[0]
         else:
-    	    searchUrl = 'http://www.dnvod.eu/Movie/'+searchResult[whichResultInt]
+    	    searchUrl = 'http://www.dnvod.eu/Movie/detail.aspx?id='+filmIdResult[0]
 
-        print searchResult[whichResultInt]
-        print searchUrl
+        #print 'searchResult: '+searchResult[whichResultInt]
+        #print 'searchUrl: '+searchUrl
         detailRequest = urllib2.Request(searchUrl,None,headers)
         detailResponse = urllib2.urlopen(detailRequest)
         detaildataResponse = detailResponse.read()
-        detailReg = r'<li><div class="bfan-n.*"><a href="(.*)" target="_blank">.*</a></div></li>'
+        detailReg = r'<li><div class=".*"><a href="(.*)"  target="_blank">.*</a></div></li>'
         detailPattern = re.compile(detailReg)
         detailResult = detailPattern.findall(detaildataResponse)
+        #print detailResult
         whichEpisodeStr = raw_input("一共有"+str(len(detailResult))+"集，请选择集数：")
         whichEpisodeInt = int(whichEpisodeStr)-1
         if inputMovieName[0:2] == 'av':
@@ -178,7 +182,7 @@ if real_url == "-4":
 elif real_url == "-3":
     print 'key错误，请重新设置key'
 else:
-    print "\n~~~~~~~~播放地址（直接复制到浏览器打开或者用工具下载）：~~~~~~~~\n"
+    print "\n~~~~~~~~真实播放地址（直接复制到浏览器打开或者用工具下载）：~~~~~~~~\n"
     if cmp(para1,"Adult") == 0:
         pattern0 = re.compile(r'(\d||\d\d||\d_\d)\.mp4')
         num0 = re.split(pattern0,real_url)
