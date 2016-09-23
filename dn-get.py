@@ -107,7 +107,7 @@ while(loopString):
         searchRegName = r'3d" title="(.*)">'
         searchPatternName = re.compile(searchRegName)
         searchResultName = searchPatternName.findall(searchdataResponse)
-        print searchResult
+        #print searchResult
         print('搜索到'+str(len(searchResult))+'个结果：\n')
 
         for i in range(len(searchResultName)):
