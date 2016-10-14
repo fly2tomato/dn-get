@@ -130,7 +130,7 @@ while(loopString):
         detailRequest = urllib2.Request(searchUrl,None,headers)
         detailResponse = urllib2.urlopen(detailRequest)
         detaildataResponse = detailResponse.read()
-        detailReg = r'<li><div class="bfan-n"><a href="(.*)"  target=".*"  >.*</a></div></li>'
+        detailReg = r'<li><div class="bfan-n"><a href="(.*)"\s*target=".*"\s*>.*</a></div></li>'
         detailPattern = re.compile(detailReg)
         detailResult = detailPattern.findall(detaildataResponse)
         #print detailResult

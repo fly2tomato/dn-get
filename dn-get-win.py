@@ -1,18 +1,18 @@
 #!/usr/bin/env python
-#-*-coding:gbk-*-
+#-*-coding:utf-8-*-
 #by fly2tomato
 
-#ÊµÏÖ¹¦ÄÜ£º
-#1£¬»ñµÃ¶àè§ÕæÊµ²¥·ÅµØÖ·£¬¸ÃµØÖ·¿ÉÖ±½ÓÔÚä¯ÀÀÆ÷ÖÐ²¥·Å»òÕßÓÃÏÂÔØ¹¤¾ß£¨Ñ¸À×£¬you-getµÈ£©ÏÂÔØ£¬ÆÁ±Î¹ã¸æ
-#2£¬´ó¸£Àû£ºÃâ·Ñ¿´¶àè§vipAV
-#Ê¹ÓÃ·½·¨£º
-#1£¬ä¯ÀÀÆ÷µÇÂ¼¶àè§£¬½øÈëÓ°Æ¬²¥·ÅÒ³Ãæ£¬½«²¥·ÅÒ³ÃæµÄurl¸´ÖÆ£¬
-#2£¬È»ºóÔÚshellÔËÐÐ£º python dn¡ªget.py£» »Ø³µ
-#3£¬ÊäÈë¸´ÖÆµÄurl£¬»Ø³µ
-#4£¬»ñµÃÕæÊµ²¥·ÅµØÖ·£¬
-#5£¬¶ÔÓÚav£¬»ñµÃµÄµØÖ·ÊÇ2minÔ¤ÀÀ°æ£¬Çë½«urlÖÐµÄ'2'»»³É'1'£¬Èç'cr-snyncjp-2.mp4'»»³É'cr-snyncjp-1.mp4'
+#Êµï¿½Ö¹ï¿½ï¿½Ü£ï¿½
+#1ï¿½ï¿½ï¿½ï¿½ï¿½Ã¶ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½Åµï¿½Ö·ï¿½ï¿½ï¿½Ãµï¿½Ö·ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð²ï¿½ï¿½Å»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¹ï¿½ï¿½ß£ï¿½Ñ¸ï¿½×£ï¿½you-getï¿½È£ï¿½ï¿½ï¿½ï¿½Ø£ï¿½ï¿½ï¿½ï¿½Î¹ï¿½ï¿½ï¿½
+#2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¿ï¿½ï¿½ï¿½ï¿½ï¿½vipAV
+#Ê¹ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½
+#1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¼ï¿½ï¿½è§£ï¿½ï¿½ï¿½ï¿½ï¿½Ó°Æ¬ï¿½ï¿½ï¿½ï¿½Ò³ï¿½æ£¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½urlï¿½ï¿½ï¿½Æ£ï¿½
+#2ï¿½ï¿½È»ï¿½ï¿½ï¿½ï¿½shellï¿½ï¿½ï¿½Ð£ï¿½ python dnï¿½ï¿½get.pyï¿½ï¿½ ï¿½Ø³ï¿½
+#3ï¿½ï¿½ï¿½ï¿½ï¿½ë¸´ï¿½Æµï¿½urlï¿½ï¿½ï¿½Ø³ï¿½
+#4ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½Åµï¿½Ö·ï¿½ï¿½
+#5ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½avï¿½ï¿½ï¿½ï¿½ï¿½ÃµÄµï¿½Ö·ï¿½ï¿½2minÔ¤ï¿½ï¿½ï¿½æ£¬ï¿½ë½«urlï¿½Ðµï¿½'2'ï¿½ï¿½ï¿½ï¿½'1'ï¿½ï¿½ï¿½ï¿½'cr-snyncjp-2.mp4'ï¿½ï¿½ï¿½ï¿½'cr-snyncjp-1.mp4'
 
-print '³ÌÐòÕýÔÚÆô¶¯, ÇëÉÔºó....'
+print 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½, ï¿½ï¿½ï¿½Ôºï¿½....'
 
 import urllib
 import httplib
@@ -24,7 +24,7 @@ import sys
 
 
 
-#»ñÈ¡ASP.NET_SessionId
+#ï¿½ï¿½È¡ASP.NET_SessionId
 s=requests.Session()
 url1 = 'http://www.dnvod.eu'
 url2 = 'http://www.dnvod.eu/Movie/Readyplay.aspx?id=7COqHhPaRZg%3d'
@@ -37,9 +37,9 @@ reg = r'ASP.NET_SessionId=(.*); path=/; HttpOnly'
 partern =  re.compile(reg)
 sessionID = partern.findall(rrrr[0]['Set-Cookie'])
 
-#¹¹½¨headers
+#ï¿½ï¿½ï¿½ï¿½headers
 user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
-#ASP.NET_SessionIdÓÐÊ±¼äÓÐÐ§ÐÔ£¬Èô³ÌÐò·µ»Ø-4 ÔòËµÃ÷ASP.NET_SessionIdÒÑ¹ýÆÚÐèÒªÖØÐÂ»ñÈ¡£¬Èô·µ»Ø-3Ôò±íÊ¾key²»¶Ô
+#ASP.NET_SessionIdï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ð§ï¿½Ô£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ò·µ»ï¿½-4 ï¿½ï¿½Ëµï¿½ï¿½ASP.NET_SessionIdï¿½Ñ¹ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½Â»ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½-3ï¿½ï¿½ï¿½ï¿½Ê¾keyï¿½ï¿½ï¿½ï¿½
 # cookies1 = '__cfduid=d58922e790c902ec87ff7384dcfc0b2451469995023; _gat=1; ASP.NET_SessionId=2ueljjviy4takln2vcmds345; jiathis_rdc=%7B%22http%3A//www.dnvod.eu/Adult/detail.aspx%3Fid%3D0cY7CF0zIt4%253d%22%3A0%7C1469995032649%2C%22http%3A//www.dnvod.eu/Adult/Readyplay.aspx%3Fid%3D%252bJRDqHAbXxw%253d%22%3A%220%7C1469995033515%22%7D; _ga=GA1.2.733351123.1469995023'
 # cookies2 = '__cfduid=d58922e790c902ec87ff7384dcfc0b2451469995023; _gat=1; ASP.NET_SessionId=2ueljjviy4takln2vcmds345; _ga=GA1.2.733351123.1469995023'
 cookies = 'ASP.NET_SessionId='+sessionID[0]
@@ -74,16 +74,16 @@ headers2 = {"Host": "www.dnvod.eu",
 
 loopString = True
 while(loopString):
-    inputArg = raw_input('\n1,Ö±½ÓÊäÈë¶àè§¹Û¿´Ò³ÃæURL£¬Çë°´1\n2,ËÑË÷Ó°Æ¬£¬Çë°´2\nÇëÊäÈë£º')
+    inputArg = raw_input('\n1,Ö±ï¿½äººï¿½ï¿½ï¿½è§¹Û¿ï¿½Ò³ï¿½ï¿½URLï¿½ï¿½ï¿½ë°´1\n2,ï¿½ï¿½ï¿½ï¿½Ó°Æ¬ï¿½ï¿½ï¿½ë°´2\nï¿½ï¿½ï¿½ï¿½ï¿½ë£º')
     if inputArg == '1':
-        inputurl = raw_input('\nÊäÈë¶àè§¹Û¿´Ò³ÃæURL£º\n')
+        inputurl = raw_input('\nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½è§¹Û¿ï¿½Ò³ï¿½ï¿½URLï¿½ï¿½\n')
         playUrl = inputurl
         loopString = False
     elif inputArg == '2':
-        inputMovieName = raw_input('\n²éÕÒÊÓÆµÃû³Æ£º')
+        inputMovieName = raw_input('\nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½Æ£ï¿½')
         iMNUni = inputMovieName.decode('gbk')
         iMNUtf8 = iMNUni.encode('utf-8')
-        if inputMovieName[0:2] == 'av':    
+        if inputMovieName[0:2] == 'av':
             urlSearch = 'http://www.dnvod.eu/Adult/Search.aspx?tags='+iMNUtf8[2:len(iMNUtf8)]
             #print urlSearch
             searchRequest = urllib2.Request(urlSearch,None,headers)
@@ -104,37 +104,37 @@ while(loopString):
         searchPatternName = re.compile(searchRegName)
         searchResultName = searchPatternName.findall(searchdataResponse)
         #print searchResult
-        print('\nËÑË÷µ½'+str(len(searchResult))+'¸ö½á¹û£º\n')
-    
+        print('\nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½'+str(len(searchResult))+'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\n')
+
         for i in range(len(searchResultName)):
             print str(i+1)+': '+searchResultName[i].decode('utf-8').encode('gbk')+'\n'
 
-        whichResultStr = raw_input('ÇëÊäÈëÊý×Ö£º')
+        whichResultStr = raw_input('ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö£ï¿½')
         whichResultInt = int(whichResultStr)-1
-    
+
         if inputMovieName[0:2] == 'av':
             searchUrl = 'http://www.dnvod.eu/Adult/'+searchResult[whichResultInt]
         else:
             searchUrl = 'http://www.dnvod.eu/M'+searchResult[whichResultInt]
-    
+
         #print searchUrl
         detailRequest = urllib2.Request(searchUrl,None,headers)
         #print detailRequest
         detailResponse = urllib2.urlopen(detailRequest)
         detaildataResponse = detailResponse.read()
-        detailReg = r'<li><div class="bfan-n"><a href="(.*)" target="_blank">.*</a></div></li>'
+        detailReg = r'<li><div class="bfan-n"><a href="(.*)"\s*target=".*"\s*>.*</a></div></li>'
         detailPattern = re.compile(detailReg)
         detailResult = detailPattern.findall(detaildataResponse)
-        whichEpisodeStr = raw_input("Ò»¹²ÓÐ"+str(len(detailResult))+"¼¯£¬ÇëÑ¡Ôñ¼¯Êý£º")
+        whichEpisodeStr = raw_input("Ò»ï¿½ï¿½ï¿½ï¿½"+str(len(detailResult))+"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½")
         whichEpisodeInt = int(whichEpisodeStr)-1
         if inputMovieName[0:2] == 'av':
             playUrl = 'http://www.dnvod.eu/Adult/'+detailResult[whichEpisodeInt]
         else:
             playUrl = 'http://www.dnvod.eu'+detailResult[whichEpisodeInt]
-        print '\n²¥·ÅÒ³ÃæURL£º\n'+playUrl
+        print '\nï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½URLï¿½ï¿½\n'+playUrl
         loopString = False
     else:
-        print '\nÊäÈë´íÎó£¬ÇëÖØÐÂÊäÈë'
+        print '\nï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½'
 
 
 
@@ -170,29 +170,29 @@ real_url = responseSec.read()
 #print '\nASP.NET_SessionId:  '+sessionID[0]
 
 if real_url == "-4":
-    print 'ASP.NET_SessionIdÒÑ¹ýÆÚ£¬ÇëÖØÐÂ»ñÈ¡'
+    print 'ASP.NET_SessionIdï¿½Ñ¹ï¿½ï¿½Ú£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â»ï¿½È¡'
 elif real_url == "-3":
-    print 'key´íÎó£¬ÇëÖØÐÂÉèÖÃkey'
+    print 'keyï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½key'
 else:
-    print "\n~~~~~~~~²¥·ÅµØÖ·£¨Ö±½Ó¸´ÖÆµ½ä¯ÀÀÆ÷´ò¿ª»òÕßÓÃ¹¤¾ßÏÂÔØ£©£º~~~~~~~~\n"
+    print "\n~~~~~~~~ï¿½ï¿½ï¿½Åµï¿½Ö·ï¿½ï¿½Ö±ï¿½Ó¸ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ò¿ª»ï¿½ï¿½ï¿½ï¿½Ã¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø£ï¿½ï¿½ï¿½~~~~~~~~\n"
     if cmp(para1,"Adult") == 0:
         pattern0 = re.compile(r'(\d||\d\d||\d_\d)\.mp4')
         num0 = re.split(pattern0,real_url)
         hdurl = num0[0]+'1'+'.mp4'+num0[2]
         if hdurl == real_url:
-            print '¸ÃÆ¬ÎªÃâ·Ñ×ÊÔ´£¬²¥·ÅµØÖ·Îª£º\n'+hdurl+'\n'
+            print 'ï¿½ï¿½Æ¬Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½ï¿½ï¿½Åµï¿½Ö·Îªï¿½ï¿½\n'+hdurl+'\n'
         else:
-            print 'Ô¤ÀÀ°æ: \n'+real_url+'\n'
-            print 'ÍêÕû°æ: \n'+hdurl+'\n'
+            print 'Ô¤ï¿½ï¿½ï¿½ï¿½: \n'+real_url+'\n'
+            print 'ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: \n'+hdurl+'\n'
     else:
         pattern = re.compile(r'(\d||\d\d||\d\d\d||\d\d\d\d||\d\d\d\d\d||\d\d\d\d\d\d||\d\d\d\d\d\d\d||\d\d\d\d\d\d\d\d)\.mp4')
         num = re.split(pattern,real_url)
         #print num
         hdurl = num[0]+'hd-'+num[1]+'.mp4'+num[2]
-        print "µÍÇå°æ: \n"+real_url+'\n'
-        print "¸ßÇå°æ: \n"+hdurl+'\n'
+        print "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: \n"+real_url+'\n'
+        print "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: \n"+hdurl+'\n'
 
-#bDownload = raw_input('\nÊÇ·ñÐèÒªÏÂÔØÊÓÆµµ½µ±Ç°Ä¿Â¼£¿(y/n)')
+#bDownload = raw_input('\nï¿½Ç·ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æµï¿½ï¿½ï¿½ï¿½Ç°Ä¿Â¼ï¿½ï¿½(y/n)')
 #if bDownload == 'y':
 #    os.system('axel -a -n 5 '+hdurl)
 #else:
