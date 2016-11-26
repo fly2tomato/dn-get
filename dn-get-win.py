@@ -1,18 +1,18 @@
 #!/usr/bin/env python
-#-*-coding:utf-8-*-
+# coding=utf-8
 #by fly2tomato
 
-#ʵ�ֹ��ܣ�
-#1�����ö�����ʵ���ŵ�ַ���õ�ַ��ֱ�����������в��Ż��������ع��ߣ�Ѹ�ף�you-get�ȣ����أ����ι���
-#2�������������ѿ�����vipAV
-#ʹ�÷�����
-#1����������¼��解�����ӰƬ����ҳ�棬������ҳ����url���ƣ�
-#2��Ȼ����shell���У� python dn��get.py�� �س�
-#3�����븴�Ƶ�url���س�
-#4��������ʵ���ŵ�ַ��
-#5������av�����õĵ�ַ��2minԤ���棬�뽫url�е�'2'����'1'����'cr-snyncjp-2.mp4'����'cr-snyncjp-1.mp4'
+#实现功能：
+#1，获得多瑙真实播放地址，该地址可直接在浏览器中播放或者用下载工具（迅雷，you-get等）下载，屏蔽广告
+#2，大福利：免费看多瑙vipAV
+#使用方法：
+#1，浏览器登录多瑙，进入影片播放页面，将播放页面的url复制，
+#2，然后在shell运行： python dn—get.py； 回车
+#3，输入复制的url，回车
+#4，获得真实播放地址，
+#5，对于av，获得的地址是2min预览版，请将url中的'2'换成'1'，如'cr-snyncjp-2.mp4'换成'cr-snyncjp-1.mp4'
 
-print '������������, ���Ժ�....'
+print '正在连接，请稍后....'
 
 import urllib
 import httplib
@@ -74,13 +74,13 @@ headers2 = {"Host": "www.dnvod.eu",
 
 loopString = True
 while(loopString):
-    inputArg = raw_input('\n1,ֱ�人���觹ۿ�ҳ��URL���밴1\n2,����ӰƬ���밴2\n�����룺')
+    inputArg = raw_input('1,直接输入多瑙观看页面URL，请按1\n2,搜索影片，请按2\n请输入：')
     if inputArg == '1':
-        inputurl = raw_input('\n������觹ۿ�ҳ��URL��\n')
+        inputurl = raw_input('\n输入多瑙观看页面URL：\n')
         playUrl = inputurl
         loopString = False
     elif inputArg == '2':
-        inputMovieName = raw_input('\n������Ƶ���ƣ�')
+        inputMovieName = raw_input('\n查找视频名称：')
         iMNUni = inputMovieName.decode('gbk')
         iMNUtf8 = iMNUni.encode('utf-8')
         if inputMovieName[0:2] == 'av':
@@ -104,18 +104,22 @@ while(loopString):
         searchPatternName = re.compile(searchRegName)
         searchResultName = searchPatternName.findall(searchdataResponse)
         #print searchResult
-        print('\n������'+str(len(searchResult))+'��������\n')
+        print('\n搜索到'+str(len(searchResult))+'个结果：\n')
 
         for i in range(len(searchResultName)):
             print str(i+1)+': '+searchResultName[i].decode('utf-8').encode('gbk')+'\n'
 
-        whichResultStr = raw_input('���������֣�')
+        whichResultStr = raw_input('请输入数字：')
         whichResultInt = int(whichResultStr)-1
 
+        filmIdReg = r'id=(.*%3d)'
+        filmIdPattern = re.compile(filmIdReg)
+        filmIdResult = filmIdPattern.findall(searchResult[whichResultInt])
+        #print filmIdResult
         if inputMovieName[0:2] == 'av':
-            searchUrl = 'http://www.dnvod.eu/Adult/'+searchResult[whichResultInt]
+    	    searchUrl = 'http://www.dnvod.eu/Adult/detail.aspx?id='+filmIdResult[0]
         else:
-            searchUrl = 'http://www.dnvod.eu/M'+searchResult[whichResultInt]
+    	    searchUrl = 'http://www.dnvod.eu/Movie/detail.aspx?id='+filmIdResult[0]
 
         #print searchUrl
         detailRequest = urllib2.Request(searchUrl,None,headers)
@@ -125,16 +129,16 @@ while(loopString):
         detailReg = r'<li><div class="bfan-n"><a href="(.*)"\s*target=".*"\s*>.*</a></div></li>'
         detailPattern = re.compile(detailReg)
         detailResult = detailPattern.findall(detaildataResponse)
-        whichEpisodeStr = raw_input("һ����"+str(len(detailResult))+"������ѡ��������")
+        whichEpisodeStr = raw_input("一共有"+str(len(detailResult))+"集，请选择集数：")
         whichEpisodeInt = int(whichEpisodeStr)-1
         if inputMovieName[0:2] == 'av':
             playUrl = 'http://www.dnvod.eu/Adult/'+detailResult[whichEpisodeInt]
         else:
             playUrl = 'http://www.dnvod.eu'+detailResult[whichEpisodeInt]
-        print '\n����ҳ��URL��\n'+playUrl
+        print '放页面URL：\n'+playUrl
         loopString = False
     else:
-        print '\n��������������������'
+        print '\n输入错误，请重新输入'
 
 
 
@@ -170,27 +174,27 @@ real_url = responseSec.read()
 #print '\nASP.NET_SessionId:  '+sessionID[0]
 
 if real_url == "-4":
-    print 'ASP.NET_SessionId�ѹ��ڣ������»�ȡ'
+    print 'ASP.NET_SessionID已过期，请重新获取'
 elif real_url == "-3":
-    print 'key����������������key'
+    print 'key错误，请重新设置key'
 else:
-    print "\n~~~~~~~~���ŵ�ַ��ֱ�Ӹ��Ƶ��������򿪻����ù������أ���~~~~~~~~\n"
+    print "\n~~~~~~~~真实播放地址（直接复制到浏览器打开或者用工具下载）：~~~~~~~~\n"
     if cmp(para1,"Adult") == 0:
         pattern0 = re.compile(r'(\d||\d\d||\d_\d)\.mp4')
         num0 = re.split(pattern0,real_url)
         hdurl = num0[0]+'1'+'.mp4'+num0[2]
         if hdurl == real_url:
-            print '��ƬΪ������Դ�����ŵ�ַΪ��\n'+hdurl+'\n'
+            print '该片为免费资源，播放地址为：\n'+hdurl+'\n'
         else:
-            print 'Ԥ����: \n'+real_url+'\n'
-            print '������: \n'+hdurl+'\n'
+            print '预览版: \n'+real_url+'\n'
+            print '完整版: \n'+hdurl+'\n'
     else:
         pattern = re.compile(r'(\d||\d\d||\d\d\d||\d\d\d\d||\d\d\d\d\d||\d\d\d\d\d\d||\d\d\d\d\d\d\d||\d\d\d\d\d\d\d\d)\.mp4')
         num = re.split(pattern,real_url)
         #print num
         hdurl = num[0]+'hd-'+num[1]+'.mp4'+num[2]
-        print "������: \n"+real_url+'\n'
-        print "������: \n"+hdurl+'\n'
+        print "低清版: \n"+real_url+'\n'
+        print "高清版: \n"+hdurl+'\n'
 
 #bDownload = raw_input('\n�Ƿ���Ҫ������Ƶ����ǰĿ¼��(y/n)')
 #if bDownload == 'y':

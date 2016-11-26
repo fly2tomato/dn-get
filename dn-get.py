@@ -46,6 +46,37 @@ def getUserAgent():
     user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
     return user_agent
 
+def getRealUrl(urlString):
+    stringOne = urlString[26:]
+    searchVodReg = r'/(.*)/'
+    searchVodPattern = re.compile(searchVodReg)
+    searchVodResult = searchVodPattern.findall(stringOne)
+    whichTypeVod = searchVodResult
+    vodString = whichTypeVod[0]
+    urlPre = urlString[:27]+vodString+'/'
+    urlPreLength = len(urlPre)
+    urlMostimportant = urlString[urlPreLength:]
+    vodList = ['vod','gvod','hvod','ivod','jvod','kvod','lvod','live']
+    serverList = ['server1','server2','server3']
+    for i in range(len(vodList)):
+        urltoattend = urlString[:27]+vodList[i]+'/'+urlMostimportant
+        findrealRequest = urllib2.Request(urltoattend)
+        try:
+            findrealResponse = urllib2.urlopen(findrealRequest)
+            realVIPURL = urltoattend
+            break
+        except urllib2.URLError,e:
+            for j in range(len(serverList)):
+                urltoattend = 'http://'+serverList[j]+'dnplayer.tv/'+vodList[i]+'/'+urlMostimportant
+                try:
+                    findrealResponse = urllib2.urlopen(findrealRequest)
+                    realVIPURL = urltoattend
+                    break
+                except urllib2.HTTPError, e:
+                    print "获取高清播放地址中..."
+
+    return  realVIPURL
+
 #宏定义
 sessionID = getSessionID(url1,url2)[0]
 cookies = getCookies()
@@ -196,15 +227,16 @@ else:
         pattern = re.compile(r'(\d||\d\d||\d\d\d||\d\d\d\d||\d\d\d\d\d||\d\d\d\d\d\d||\d\d\d\d\d\d\d||\d\d\d\d\d\d\d\d)\.mp4')
         num = re.split(pattern,real_url)
         #print num
-        hdurl = num[0]+'hd-'+num[1]+'.mp4'+num[2]
-        print "低清版: \n"+real_url+'\n'
-        print "高清版: \n"+hdurl+'\n'
+        #print "低清版: \n"+real_url+'\n'
+        hdurl0 = num[0] + 'hd-' + num[1] + '.mp4' + num[2]
+        hdurl = getRealUrl(hdurl0)
+        print "\n 高清版: \n"+hdurl+'\n'
 
-bDownload = raw_input('\n是否需要下载视频到当前目录？(y/n)')
+bDownload = raw_input('\n是否需要下载视频到当前目录(for mac and linux only)？(y/n)')
 if bDownload == 'y':
     os.system('axel -a -n 5 '+hdurl)
 else:
-    isPlay = raw_input('\n是否需要在线播放该视频？(y/n)')
+    isPlay = raw_input('\n是否需要在线播放该视频(for mac and linux only)？(y/n)')
     if isPlay == 'y':
         os.system('mplayer '+hdurl)
     else:
