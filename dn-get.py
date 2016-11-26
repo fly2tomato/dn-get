@@ -161,16 +161,18 @@ while(loopString):
         detailRequest = urllib2.Request(searchUrl,None,headers)
         detailResponse = urllib2.urlopen(detailRequest)
         detaildataResponse = detailResponse.read()
-        detailReg = r'<li><div class="bfan-n"><a href="(.*)"\s*target=".*"\s*>.*</a></div></li>'
+        #print detaildataResponse
+        detailReg = r'Readyplay.aspx\?id=(.*)" target'
         detailPattern = re.compile(detailReg)
         detailResult = detailPattern.findall(detaildataResponse)
+        totalEps = len(detailResult)
         #print detailResult
-        whichEpisodeStr = raw_input("一共有"+str(len(detailResult))+"集，请选择集数：")
+        whichEpisodeStr = raw_input("一共有"+str(totalEps)+"集，请选择集数：")
         whichEpisodeInt = int(whichEpisodeStr)-1
         if inputMovieName[0:2] == 'av':
-            playUrl = 'http://www.dnvod.eu/Adult/'+detailResult[whichEpisodeInt]
+            playUrl = 'http://www.dnvod.eu/Adult/Readyplay.aspx?id='+detailResult[whichEpisodeInt]
         else:
-    	    playUrl = 'http://www.dnvod.eu'+detailResult[whichEpisodeInt]
+    	    playUrl = 'http://www.dnvod.eu/Movie/Readyplay.aspx?id='+detailResult[whichEpisodeInt]
         print '播放页面URL：\n'+playUrl
         loopString = False
     else:
