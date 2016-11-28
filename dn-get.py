@@ -22,17 +22,16 @@ import sys
 import time
 from selenium import webdriver
 
-#url1 = 'http://www.dnvod.eu/'
-#url2 = 'http://www.dnvod.eu/Movie/Readyplay.aspx?id=qhYe%2fY0pcsk%3d'
-#url1 = 'https://www.baidu.com'
-#url2 = url1
+url1 = 'http://www.dnvod.eu/'
+url2 = 'http://www.dnvod.eu/Movie/Readyplay.aspx?id=qhYe%2fY0pcsk%3d'
+
 
 #获取ASP.NET_SessionId
-def getSessionID (url1,url2):
+def getSessionID (url2):
     try:
         s = requests.Session()
-        r0 = s.get(url1)
-        headr0 =r0.headers
+        #r0 = s.get(url1)
+        #headr0 =r0.headers
         #time.sleep(6)
         r1 = s.get(url2)
         header = r1.headers
@@ -54,11 +53,11 @@ def getSessionID (url1,url2):
 def getCookies():
     #brower = webdriver.Chrome('/Users/Junior/dev/python/chromedriver')
     brower = webdriver.PhantomJS(executable_path="/Users/Junior/dev/python/phantomjs-2.1.1-macosx/bin/phantomjs")
-    brower.get('http://www.dnvod.eu/Movie/Readyplay.aspx?id=qhYe%2fY0pcsk%3d')
+    brower.get(url2)
     cookies = brower.get_cookies()
     cookie = cookies[5]
     cooki = cookie["value"]
-    print cooki
+    #print cooki
     #cookies = 'ASP.NET_SessionId='+sessionID
     return cooki
 def getUserAgent():
@@ -79,33 +78,43 @@ def getRealUrl(urlString):
     urlMostimportant = urlString[urlPreLength:]
     vodList = ['vod','gvod','hvod','ivod','jvod','kvod','lvod','live']
     serverList = ['server1','server2','server3']
-    for i in range(len(vodList)):
-        urltoattend = urlString[:27]+vodList[i]+'/'+urlMostimportant
-        findrealRequest = urllib2.Request(urltoattend)
-        try:
-            findrealResponse = urllib2.urlopen(findrealRequest)
-            realVIPURL = urltoattend
-            break
-        except urllib2.URLError,e:
-            for j in range(len(serverList)):
-                urltoattend = 'http://'+serverList[j]+'dnplayer.tv/'+vodList[i]+'/'+urlMostimportant
-                try:
-                    findrealResponse = urllib2.urlopen(findrealRequest)
-                    realVIPURL = urltoattend
-                    break
-                except urllib2.HTTPError, e:
-                    print "获取高清播放地址中..."
 
+    try:
+        urltoattend =  urlPre+urlMostimportant
+        findrealRequest = urllib2.Request(urltoattend)
+        findrealResponse = urllib2.urlopen(findrealRequest)
+        realVIPURL = urltoattend
+    except urllib2.URLError,e:
+        for i in range(len(vodList)):
+            urltoattend = urlString[:27] + vodList[i] + '/' + urlMostimportant
+            findrealRequest = urllib2.Request(urltoattend)
+            try:
+                findrealResponse = urllib2.urlopen(findrealRequest)
+                realVIPURL = urltoattend
+                break
+            except urllib2.URLError, e:
+                for j in range(len(serverList)):
+                    urltoattend = 'http://' + serverList[j] + '.dnplayer.tv/' + vodList[i] + '/' + urlMostimportant
+                    try:
+                        findrealRequest = urllib2.Request(urltoattend)
+                        findrealResponse = urllib2.urlopen(findrealRequest)
+                        realVIPURL = urltoattend
+                        break
+                    except urllib2.HTTPError, e:
+                        print "获取高清播放地址中..."
     return  realVIPURL
 
-#宏定义
-#sessionID = getSessionID(url1,url2)[0]
 
-cookies = 'ASP.NET_SessionId='+getCookies()
-#cookies = 'ASP.NET_SessionId=dmqjnh2btbqpsiqlo5gvquq1'
+
+
+#获取cookie，当网站出现5秒等待时，用这个方法获得cookie
+#cookies = 'ASP.NET_SessionId='+getCookies()
+#获取cookie，当网站未出现5秒等待时，用这个方法获得cookie
+cookies = 'ASP.NET_SessionId='+getSessionID(url2)[0]
+
+
+#构建user agent
 user_agent = getUserAgent()
-
-
 #构建headers
 headers = {"User-Agent": user_agent,
 "Content-Type": "application/x-www-form-urlencoded",
@@ -131,6 +140,8 @@ headers2 = {"Host": "www.dnvod.eu",
 "Accept-Language": "de-DE,de;q=0.8,en-US;q=0.6,en;q=0.4,zh-CN;q=0.2,zh;q=0.2,zh-TW;q=0.2,fr-FR;q=0.2,fr;q=0.2",
 "Connection": "keep-alive",
 "Cookie": cookies}
+
+
 
 loopString = True
 while(loopString):
@@ -226,7 +237,7 @@ keyString = resultkeyString[0]
 
 
 data = urllib.urlencode({'key':keyString})
-requestSec = urllib2.Request(urlSec,data,headers2)
+requestSec = urllib2.Request(urlSec,data,headers)
 responseSec = urllib2.urlopen(requestSec)
 real_url = responseSec.read()
 #print real_url
