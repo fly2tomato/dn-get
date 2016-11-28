@@ -11,7 +11,7 @@
 #3，输入复制的url，回车
 #4，获得真实播放地址，
 #5，对于av，获得的地址是2min预览版，请将url中的'2'换成'1'，如'cr-snyncjp-2.mp4'换成'cr-snyncjp-1.mp4'
-
+import cookielib
 import urllib
 import httplib
 import urllib2
@@ -19,31 +19,50 @@ import re
 import requests
 import os
 import sys
+import time
+from selenium import webdriver
 
-url1 = 'http://www.dnvod.eu'
-url2 = 'http://www.dnvod.eu/Movie/Readyplay.aspx?id=7COqHhPaRZg%3d'
+#url1 = 'http://www.dnvod.eu/'
+#url2 = 'http://www.dnvod.eu/Movie/Readyplay.aspx?id=qhYe%2fY0pcsk%3d'
+#url1 = 'https://www.baidu.com'
+#url2 = url1
+
 #获取ASP.NET_SessionId
 def getSessionID (url1,url2):
-    s=requests.Session()
-    s.get(url1)
-    r1 = s.get(url2)
-    header = r1.headers
-    rrrr = [header]
-    #print rrrr[0]['Set-Cookie']
-    reg = r'ASP.NET_SessionId=(.*); path=/; HttpOnly'
-    partern =  re.compile(reg)
-    sessionID = partern.findall(rrrr[0]['Set-Cookie'])
-    return sessionID
+    try:
+        s = requests.Session()
+        r0 = s.get(url1)
+        headr0 =r0.headers
+        #time.sleep(6)
+        r1 = s.get(url2)
+        header = r1.headers
+        rrrr = [header]
+        print rrrr[0]['Set-Cookie']
+        reg = r'ASP.NET_SessionId=(.*); path=/; HttpOnly'
+        partern =  re.compile(reg)
+        sessionID = partern.findall(rrrr[0]['Set-Cookie'])
+        return sessionID
+    except urllib2.URLError,e:
+        print e.code
+        print e.reason
+
 
 #ASP.NET_SessionId有时间有效性，若程序返回-4 则说明ASP.NET_SessionId已过期需要重新获取，若返回-3则表示key不对
 # cookies1 = '__cfduid=d58922e790c902ec87ff7384dcfc0b2451469995023; _gat=1; ASP.NET_SessionId=2ueljjviy4takln2vcmds345; jiathis_rdc=%7B%22http%3A//www.dnvod.eu/Adult/detail.aspx%3Fid%3D0cY7CF0zIt4%253d%22%3A0%7C1469995032649%2C%22http%3A//www.dnvod.eu/Adult/Readyplay.aspx%3Fid%3D%252bJRDqHAbXxw%253d%22%3A%220%7C1469995033515%22%7D; _ga=GA1.2.733351123.1469995023'
 # cookies2 = '__cfduid=d58922e790c902ec87ff7384dcfc0b2451469995023; _gat=1; ASP.NET_SessionId=2ueljjviy4takln2vcmds345; _ga=GA1.2.733351123.1469995023'
 
 def getCookies():
-    cookies = 'ASP.NET_SessionId='+sessionID
-    return cookies
+    #brower = webdriver.Chrome('/Users/Junior/dev/python/chromedriver')
+    brower = webdriver.PhantomJS(executable_path="/Users/Junior/dev/python/phantomjs-2.1.1-macosx/bin/phantomjs")
+    brower.get('http://www.dnvod.eu/Movie/Readyplay.aspx?id=qhYe%2fY0pcsk%3d')
+    cookies = brower.get_cookies()
+    cookie = cookies[5]
+    cooki = cookie["value"]
+    print cooki
+    #cookies = 'ASP.NET_SessionId='+sessionID
+    return cooki
 def getUserAgent():
-    user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
+    user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36'
     return user_agent
 
 def getRealUrl(urlString):
@@ -54,6 +73,8 @@ def getRealUrl(urlString):
     whichTypeVod = searchVodResult
     vodString = whichTypeVod[0]
     urlPre = urlString[:27]+vodString+'/'
+
+
     urlPreLength = len(urlPre)
     urlMostimportant = urlString[urlPreLength:]
     vodList = ['vod','gvod','hvod','ivod','jvod','kvod','lvod','live']
@@ -78,16 +99,18 @@ def getRealUrl(urlString):
     return  realVIPURL
 
 #宏定义
-sessionID = getSessionID(url1,url2)[0]
-cookies = getCookies()
+#sessionID = getSessionID(url1,url2)[0]
+
+cookies = 'ASP.NET_SessionId='+getCookies()
+#cookies = 'ASP.NET_SessionId=dmqjnh2btbqpsiqlo5gvquq1'
 user_agent = getUserAgent()
 
 
 #构建headers
 headers = {"User-Agent": user_agent,
 "Content-Type": "application/x-www-form-urlencoded",
-"Accept": "*/*",
-"Referer": "http://www.dnvod.eu/Movie/Readyplay.aspx?id=jydSM%2fudfCo%3d",
+"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+"Referer": "http://www.dnvod.eu/",
 #"Content-Length": "36",
 "Accept-Encoding": "",
 "Accept-Language": "de-DE,de;q=0.8,en-US;q=0.6,en;q=0.4,zh-CN;q=0.2,zh;q=0.2,zh-TW;q=0.2,fr-FR;q=0.2,fr;q=0.2",
@@ -160,6 +183,7 @@ while(loopString):
         #print 'searchUrl: '+searchUrl
         detailRequest = urllib2.Request(searchUrl,None,headers)
         detailResponse = urllib2.urlopen(detailRequest)
+
         detaildataResponse = detailResponse.read()
         #print detaildataResponse
         detailReg = r'Readyplay.aspx\?id=(.*)" target'
@@ -206,9 +230,9 @@ requestSec = urllib2.Request(urlSec,data,headers2)
 responseSec = urllib2.urlopen(requestSec)
 real_url = responseSec.read()
 #print real_url
-print "\nID:                 "+para2
-print '\nKey:                '+keyString
-print '\nASP.NET_SessionId:  '+sessionID
+#print "\nID:                 "+para2
+#print '\nKey:                '+keyString
+#print '\nASP.NET_SessionId:  '+sessionID
 
 if real_url == "-4":
     print 'ASP.NET_SessionID已过期，请重新获取'
