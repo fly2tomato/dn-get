@@ -36,7 +36,7 @@ def getSessionID (url2):
         r1 = s.get(url2)
         header = r1.headers
         rrrr = [header]
-        print rrrr[0]['Set-Cookie']
+        #print rrrr[0]['Set-Cookie']
         reg = r'ASP.NET_SessionId=(.*); path=/; HttpOnly'
         partern =  re.compile(reg)
         sessionID = partern.findall(rrrr[0]['Set-Cookie'])
