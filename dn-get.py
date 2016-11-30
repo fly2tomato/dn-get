@@ -227,7 +227,7 @@ while(loopString):
         main(playUrl,headers)
         loopString = False
     elif inputArg == '2':
-        input_channel = raw_input('选择频道：\n1,电影\n2,电视剧\n3,综艺\n4,动漫\n请输入：')
+        input_channel = raw_input('\n选择频道：\n1,电影\n2,电视剧(开发中)\n3,综艺(开发中)\n4,动漫(开发中)\n请输入：')
         if input_channel == '1':
             channel_url = 'http://www.dnvod.eu/Movie/List.aspx?CID=0,1,3'
             html_content = get_html_content(channel_url,headers)
