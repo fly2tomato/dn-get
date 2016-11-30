@@ -23,16 +23,99 @@ import time
 from selenium import webdriver
 
 url1 = 'http://www.dnvod.eu/'
-url2 = 'http://www.dnvod.eu/Movie/Readyplay.aspx?id=qhYe%2fY0pcsk%3d'
+url2 = 'http://www.dnvod.eu/Movie/Readyplay.aspx?id=9Qm2PeBpd5s%3d'
 
+def main(playUrl,headers):
+    real_url = get_real_url(playUrl,headers)
+    #print real_url
+    data_responseFir = get_html_content(playUrl,headers)
+    para1 = playUrl[20:25]#Adult or Movie
+    #print para1
+    para2 = regular_process(r'id:.*\'(.*)\',',data_responseFir)[0]
+    #print "\nID:                 "+para2
+    #print '\nKey:                '+keyString
+    #print '\nASP.NET_SessionId:  '+sessionID
+    if real_url == "-4":
+        print 'ASP.NET_SessionID已过期，请重新获取'
+    elif real_url == "-3":
+        print 'key错误，请重新设置key'
+    else:
+        hdurl_print(real_url,para1,para2)
+    bDownload = raw_input('\n是否需要下载视频到当前目录(for mac and linux only)？(y/n)')
+    if bDownload == 'y':
+        os.system('axel -a -n 5 '+hdurl)
+    else:
+        isPlay = raw_input('\n是否需要在线播放该视频(for mac and linux only)？(y/n)')
+        if isPlay == 'y':
+            os.system('mplayer '+hdurl)
+        else:
+            print '\nlove & peace\nfly2tomato\n'
+
+def hdurl_print(real_url,para1,para2):
+    print "\n~~~~~~~~真实播放地址（直接复制到浏览器打开或者用工具下载）：~~~~~~~~\n"
+    if cmp(para1,"Adult") == 0:
+        pattern0 = re.compile(r'(\d||\d\d||\d_\d)\.mp4')
+        num0 = re.split(pattern0,real_url)
+        hdurl = num0[0]+'1'+'.mp4'+num0[2]
+        if hdurl == real_url:
+            print '该片为免费资源，播放地址为：\n'+hdurl+'\n'
+        else:
+            print '预览版: \n'+real_url+'\n'
+            print '完整版: \n'+hdurl+'\n'
+    else:
+        pattern = re.compile(r'(\d||\d\d||\d\d\d||\d\d\d\d||\d\d\d\d\d||\d\d\d\d\d\d||\d\d\d\d\d\d\d||\d\d\d\d\d\d\d\d)\.mp4')
+        num = re.split(pattern,real_url)
+        #print num
+        #print "低清版: \n"+real_url+'\n'
+        hdurl0 = num[0] + 'hd-' + num[1] + '.mp4' + num[2]
+        hdurl = getRealUrl(hdurl0)
+        print "\n 高清版: \n"+hdurl+'\n'
+
+def get_real_url(playUrl,headers):
+    data_responseFir = get_html_content(playUrl,headers)
+    para1 = playUrl[20:25]#Adult or Movie
+    para2 = regular_process(r'id:.*\'(.*)\',',data_responseFir)[0]
+    urlSec = 'http://www.dnvod.eu/'+para1+'/GetResource.ashx?id='+para2+'&type=htm'
+    keyString = regular_process(r'key:.*\'(.*)\',',data_responseFir)[0]
+    data = urllib.urlencode({'key':keyString})
+    requestSec = urllib2.Request(urlSec,data,headers)
+    responseSec = urllib2.urlopen(requestSec)
+    real_url = responseSec.read()
+    return real_url
+
+def get_play_url(searchUrl,headers):
+    detail_content = get_html_content(searchUrl,headers)
+    episode_list = regular_process(r'Readyplay.aspx\?id=(.*)" target',detail_content)
+    totalEps = len(episode_list)
+    #print detailResult
+    whichEpisodeStr = raw_input("一共有"+str(totalEps)+"集，请选择集数：")
+    whichEpisodeInt = int(whichEpisodeStr)-1
+    try:
+        if inputMovieName[0:2] == 'av':
+            playUrl = 'http://www.dnvod.eu/Adult/Readyplay.aspx?id='+episode_list[whichEpisodeInt]
+        else:
+            playUrl = 'http://www.dnvod.eu/Movie/Readyplay.aspx?id='+episode_list[whichEpisodeInt]
+            return playUrl
+    except:
+        playUrl = 'http://www.dnvod.eu/Movie/Readyplay.aspx?id='+episode_list[whichEpisodeInt]
+        return playUrl
+
+def get_html_content(channel_url,header):
+    searchRequest = urllib2.Request(channel_url,None,headers)
+    searchResponse = urllib2.urlopen(searchRequest)
+    searchdataResponse = searchResponse.read()
+    return searchdataResponse
+
+def regular_process(regular_str,html_con):
+    searchReg = regular_str
+    searchPattern = re.compile(searchReg)
+    searchResult = searchPattern.findall(html_con)
+    return searchResult
 
 #获取ASP.NET_SessionId
 def getSessionID (url2):
     try:
         s = requests.Session()
-        #r0 = s.get(url1)
-        #headr0 =r0.headers
-        #time.sleep(6)
         r1 = s.get(url2)
         header = r1.headers
         rrrr = [header]
@@ -46,19 +129,14 @@ def getSessionID (url2):
         print e.reason
 
 
-#ASP.NET_SessionId有时间有效性，若程序返回-4 则说明ASP.NET_SessionId已过期需要重新获取，若返回-3则表示key不对
-# cookies1 = '__cfduid=d58922e790c902ec87ff7384dcfc0b2451469995023; _gat=1; ASP.NET_SessionId=2ueljjviy4takln2vcmds345; jiathis_rdc=%7B%22http%3A//www.dnvod.eu/Adult/detail.aspx%3Fid%3D0cY7CF0zIt4%253d%22%3A0%7C1469995032649%2C%22http%3A//www.dnvod.eu/Adult/Readyplay.aspx%3Fid%3D%252bJRDqHAbXxw%253d%22%3A%220%7C1469995033515%22%7D; _ga=GA1.2.733351123.1469995023'
-# cookies2 = '__cfduid=d58922e790c902ec87ff7384dcfc0b2451469995023; _gat=1; ASP.NET_SessionId=2ueljjviy4takln2vcmds345; _ga=GA1.2.733351123.1469995023'
-
 def getCookies():
     #brower = webdriver.Chrome('/Users/Junior/dev/python/chromedriver')
-    brower = webdriver.PhantomJS(executable_path="/Users/Junior/dev/python/phantomjs-2.1.1-macosx/bin/phantomjs")
-    brower.get(url2)
-    cookies = brower.get_cookies()
+    brower1 = webdriver.PhantomJS(executable_path="/Users/Junior/dev/python/phantomjs-2.1.1-macosx/bin/phantomjs")
+    brower1.get(url2)
+    cookies = brower1.get_cookies()
     cookie = cookies[5]
     cooki = cookie["value"]
     #print cooki
-    #cookies = 'ASP.NET_SessionId='+sessionID
     return cooki
 def getUserAgent():
     user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36'
@@ -72,13 +150,10 @@ def getRealUrl(urlString):
     whichTypeVod = searchVodResult
     vodString = whichTypeVod[0]
     urlPre = urlString[:27]+vodString+'/'
-
-
     urlPreLength = len(urlPre)
     urlMostimportant = urlString[urlPreLength:]
     vodList = ['vod','gvod','hvod','ivod','jvod','kvod','lvod','live']
     serverList = ['server1','server2','server3']
-
     try:
         urltoattend =  urlPre+urlMostimportant
         findrealRequest = urllib2.Request(urltoattend)
@@ -106,17 +181,19 @@ def getRealUrl(urlString):
 
 
 
+####程序从这里开始！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
 
 #获取cookie，当网站出现5秒等待时，用这个方法获得cookie
 #cookies = 'ASP.NET_SessionId='+getCookies()
 #获取cookie，当网站未出现5秒等待时，用这个方法获得cookie
 cookies = 'ASP.NET_SessionId='+getSessionID(url2)[0]
-
+#以上两种方式都不可以时，尝试第三种
+#cookies = 'ASP.NET_SessionId=xzwrf4k0ulqctgt2boww5hk3'
 
 #构建user agent
 user_agent = getUserAgent()
 #构建headers
-headers = {"User-Agent": user_agent,
+headers = {"User-Agent": 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36',
 "Content-Type": "application/x-www-form-urlencoded",
 "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
 "Referer": "http://www.dnvod.eu/",
@@ -141,140 +218,68 @@ headers2 = {"Host": "www.dnvod.eu",
 "Connection": "keep-alive",
 "Cookie": cookies}
 
-
-
 loopString = True
 while(loopString):
-    inputArg = raw_input('1,直接输入多瑙观看页面URL，请按1\n2,搜索影片，请按2\n请输入：')
+    inputArg = raw_input('1,直接输入多瑙观看页面URL，请按1\n2,随便看看\n3,搜索影片，请按3\n请输入：')
     if inputArg == '1':
         inputurl = raw_input('\n输入多瑙观看页面URL：\n')
         playUrl = inputurl
+        main(playUrl,headers)
         loopString = False
     elif inputArg == '2':
+        input_channel = raw_input('选择频道：\n1,电影\n2,电视剧\n3,综艺\n4,动漫\n请输入：')
+        if input_channel == '1':
+            channel_url = 'http://www.dnvod.eu/Movie/List.aspx?CID=0,1,3'
+            html_content = get_html_content(channel_url,headers)
+            match_movie_address = r'<a href="(.*%3d)">'
+            movie_address_list = regular_process(match_movie_address,html_content)
+            match_movie_name = r'%3d" title="(.*)">'
+            movie_name_list = regular_process(match_movie_name,html_content)
+            del movie_name_list[35]
+            del movie_name_list[36]
+            del movie_name_list[37]
+            match_movie_popular = r'color:#FD2525\'>(.*)</font>'
+            movie_popular_list = regular_process(match_movie_popular,html_content)
+            #print len(movie_address_list)
+            #print len(movie_name_list)
+            #print len(movie_popular_list)
+            for movie in range(len(movie_address_list)):
+                print '********************************'
+                print str(movie)+': \n'+'影片：'+movie_name_list[movie]+'\n人气：'+movie_popular_list[movie]
+            input_movie_num = raw_input('\n请输入数字：')
+            detailUrl = 'http://www.dnvod.eu'+movie_address_list[int(input_movie_num)]
+            #print detailUrl
+            playUrl = get_play_url(detailUrl,headers)
+            main(playUrl,headers)
+            loopString = False
+        elif input_channel == '2':
+            channel_url = 'http://www.dnvod.eu/Movie/List.aspx?CID=0,1,4'
+        elif input_channel == '3':
+            channel_url = 'http://www.dnvod.eu/Movie/List.aspx?CID=0,1,5'
+    elif inputArg == '3':
         inputMovieName = raw_input('\n查找视频名称：')
         if inputMovieName[0:2] == 'av':
             urlSearch = 'http://www.dnvod.eu/Adult/Search.aspx?tags='+inputMovieName[2:len(inputMovieName)]
-            searchRequest = urllib2.Request(urlSearch,None,headers)
-            searchResponse = urllib2.urlopen(searchRequest)
-            searchdataResponse = searchResponse.read()
-            #print searchdataResponse
-            searchReg = r'<a href="(.*%3d)">'
         else:
             urlSearch = 'http://www.dnvod.eu/Movie/Search.aspx?tags='+inputMovieName
-            searchRequest = urllib2.Request(urlSearch,None,headers)
-            searchResponse = urllib2.urlopen(searchRequest)
-            searchdataResponse = searchResponse.read()
-            #print searchdataResponse
-            #searchReg = r'<a href="/\w(.*%3d)">'
-            searchReg = r'<a href="(.*%3d)">'
-        searchPattern = re.compile(searchReg)
-        searchResult = searchPattern.findall(searchdataResponse)
-        searchRegName = r'3d" title="(.*)">'
-        searchPatternName = re.compile(searchRegName)
-        searchResultName = searchPatternName.findall(searchdataResponse)
+        searchdataResponse = get_html_content(urlSearch,headers)
+        searchResult = regular_process(r'<a href="(.*%3d)">',searchdataResponse)
+        searchResultName = regular_process(r'3d" title="(.*)">',searchdataResponse)
         #print searchResult
         print('搜索到'+str(len(searchResult))+'个结果：\n')
-
         for i in range(len(searchResultName)):
             print str(i+1)+': '+searchResultName[i]+'\n'
-
         whichResultStr = raw_input('请输入数字：')
         whichResultInt = int(whichResultStr)-1
-
-        filmIdReg = r'id=(.*%3d)'
-        filmIdPattern = re.compile(filmIdReg)
-        filmIdResult = filmIdPattern.findall(searchResult[whichResultInt])
+        filmIdResult = regular_process(r'id=(.*%3d)',searchResult[whichResultInt])
         #print filmIdResult
         if inputMovieName[0:2] == 'av':
     	    searchUrl = 'http://www.dnvod.eu/Adult/detail.aspx?id='+filmIdResult[0]
         else:
     	    searchUrl = 'http://www.dnvod.eu/Movie/detail.aspx?id='+filmIdResult[0]
-
-        #print 'searchResult: '+searchResult[whichResultInt]
-        #print 'searchUrl: '+searchUrl
-        detailRequest = urllib2.Request(searchUrl,None,headers)
-        detailResponse = urllib2.urlopen(detailRequest)
-
-        detaildataResponse = detailResponse.read()
-        #print detaildataResponse
-        detailReg = r'Readyplay.aspx\?id=(.*)" target'
-        detailPattern = re.compile(detailReg)
-        detailResult = detailPattern.findall(detaildataResponse)
-        totalEps = len(detailResult)
-        #print detailResult
-        whichEpisodeStr = raw_input("一共有"+str(totalEps)+"集，请选择集数：")
-        whichEpisodeInt = int(whichEpisodeStr)-1
-        if inputMovieName[0:2] == 'av':
-            playUrl = 'http://www.dnvod.eu/Adult/Readyplay.aspx?id='+detailResult[whichEpisodeInt]
-        else:
-    	    playUrl = 'http://www.dnvod.eu/Movie/Readyplay.aspx?id='+detailResult[whichEpisodeInt]
+        playUrl = get_play_url(searchUrl,headers)
         print '播放页面URL：\n'+playUrl
+        main(playUrl,headers)
         loopString = False
     else:
         print '\n输入错误，请重新输入'
-
-
-
-requestFir = urllib2.Request(playUrl,None,headers)
-responseFir  = urllib2.urlopen(requestFir)
-data_responseFir = responseFir.read()
-#print data_responseFir
-
-para1 = playUrl[20:25]#Adult or Movie
-#print para1
-reg     = r'id:.*\'(.*)\','
-pattern = re.compile(reg)
-result  = pattern.findall(data_responseFir)
-para2   = result[0]
-
-urlSec = 'http://www.dnvod.eu/'+para1+'/GetResource.ashx?id='+para2+'&type=htm'
-#data = 'key=4c4e0393d0b0444cb72b0dcd9bc13417'
-
-regkeyString = r'key:.*\'(.*)\','
-patternkeyString = re.compile(regkeyString)
-resultkeyString = patternkeyString.findall(data_responseFir)
-keyString = resultkeyString[0]
-
-
-data = urllib.urlencode({'key':keyString})
-requestSec = urllib2.Request(urlSec,data,headers)
-responseSec = urllib2.urlopen(requestSec)
-real_url = responseSec.read()
-#print real_url
-#print "\nID:                 "+para2
-#print '\nKey:                '+keyString
-#print '\nASP.NET_SessionId:  '+sessionID
-
-if real_url == "-4":
-    print 'ASP.NET_SessionID已过期，请重新获取'
-elif real_url == "-3":
-    print 'key错误，请重新设置key'
-else:
-    print "\n~~~~~~~~真实播放地址（直接复制到浏览器打开或者用工具下载）：~~~~~~~~\n"
-    if cmp(para1,"Adult") == 0:
-        pattern0 = re.compile(r'(\d||\d\d||\d_\d)\.mp4')
-        num0 = re.split(pattern0,real_url)
-        hdurl = num0[0]+'1'+'.mp4'+num0[2]
-        if hdurl == real_url:
-            print '该片为免费资源，播放地址为：\n'+hdurl+'\n'
-        else:
-            print '预览版: \n'+real_url+'\n'
-            print '完整版: \n'+hdurl+'\n'
-    else:
-        pattern = re.compile(r'(\d||\d\d||\d\d\d||\d\d\d\d||\d\d\d\d\d||\d\d\d\d\d\d||\d\d\d\d\d\d\d||\d\d\d\d\d\d\d\d)\.mp4')
-        num = re.split(pattern,real_url)
-        #print num
-        #print "低清版: \n"+real_url+'\n'
-        hdurl0 = num[0] + 'hd-' + num[1] + '.mp4' + num[2]
-        hdurl = getRealUrl(hdurl0)
-        print "\n 高清版: \n"+hdurl+'\n'
-
-bDownload = raw_input('\n是否需要下载视频到当前目录(for mac and linux only)？(y/n)')
-if bDownload == 'y':
-    os.system('axel -a -n 5 '+hdurl)
-else:
-    isPlay = raw_input('\n是否需要在线播放该视频(for mac and linux only)？(y/n)')
-    if isPlay == 'y':
-        os.system('mplayer '+hdurl)
-    else:
-	print '\nlove & peace\nfly2tomato\n'
