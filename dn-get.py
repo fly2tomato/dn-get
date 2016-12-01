@@ -93,6 +93,7 @@ def get_play_url(searchUrl,headers):
     try:
         if inputMovieName[0:2] == 'av':
             playUrl = 'http://www.dnvod.eu/Adult/Readyplay.aspx?id='+episode_list[whichEpisodeInt]
+            return playUrl
         else:
             playUrl = 'http://www.dnvod.eu/Movie/Readyplay.aspx?id='+episode_list[whichEpisodeInt]
             return playUrl
