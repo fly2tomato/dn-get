@@ -40,7 +40,7 @@ def main(playUrl,headers):
     elif real_url == "-3":
         print 'key错误，请重新设置key'
     else:
-        hdurl_print(real_url,para1,para2)
+        hdurl = hdurl_print(real_url,para1,para2)
     bDownload = raw_input('\n是否需要下载视频到当前目录(for mac and linux only)？(y/n)')
     if bDownload == 'y':
         os.system('axel -a -n 5 '+hdurl)
@@ -70,6 +70,7 @@ def hdurl_print(real_url,para1,para2):
         hdurl0 = num[0] + 'hd-' + num[1] + '.mp4' + num[2]
         hdurl = getRealUrl(hdurl0)
         print " 高清版: \n"+hdurl+'\n'
+    return hdurl
 
 def get_real_url(playUrl,headers):
     data_responseFir = get_html_content(playUrl,headers)
@@ -244,7 +245,7 @@ while(loopString):
             #print len(movie_address_list)
             #print len(movie_name_list)
             #print len(movie_popular_list)
-            for movie in range(len(movie_address_list)):
+            for movie in range(55):
                 print '********************************'
                 print str(movie)+': \n'+'影片：'+movie_name_list[movie]+'\n人气：'+movie_popular_list[movie]
             input_movie_num = raw_input('\n请输入数字：')
