@@ -52,7 +52,7 @@ def main(playUrl,headers):
             print '\nlove & peace\nfly2tomato\n'
 
 def hdurl_print(real_url,para1,para2):
-    print "\n~~~~~~~~真实播放地址（直接复制到浏览器打开或者用工具下载）：~~~~~~~~\n"
+    print "\n********真实播放地址（直接复制到浏览器打开或者用工具下载）：********\n"
     if cmp(para1,"Adult") == 0:
         pattern0 = re.compile(r'(\d||\d\d||\d_\d)\.mp4')
         num0 = re.split(pattern0,real_url)
@@ -69,7 +69,7 @@ def hdurl_print(real_url,para1,para2):
         #print "低清版: \n"+real_url+'\n'
         hdurl0 = num[0] + 'hd-' + num[1] + '.mp4' + num[2]
         hdurl = getRealUrl(hdurl0)
-        print "\n 高清版: \n"+hdurl+'\n'
+        print " 高清版: \n"+hdurl+'\n'
 
 def get_real_url(playUrl,headers):
     data_responseFir = get_html_content(playUrl,headers)
@@ -220,7 +220,7 @@ headers2 = {"Host": "www.dnvod.eu",
 
 loopString = True
 while(loopString):
-    inputArg = raw_input('1,直接输入多瑙观看页面URL，请按1\n2,随便看看\n3,搜索影片，请按3\n请输入：')
+    inputArg = raw_input('\n*****************************\n* 1,直接输入多瑙观看页面URL *\n* 2,随便看看                *\n* 3,搜索影片                *\n*****************************\n\n请输入数字：')
     if inputArg == '1':
         inputurl = raw_input('\n输入多瑙观看页面URL：\n')
         playUrl = inputurl
