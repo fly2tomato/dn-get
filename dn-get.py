@@ -20,7 +20,7 @@ import requests
 import os
 import sys
 import time
-from selenium import webdriver
+#from selenium import webdriver
 
 url1 = 'http://www.dnvod.eu/'
 url2 = 'http://www.dnvod.eu/Movie/Readyplay.aspx?id=9Qm2PeBpd5s%3d'
