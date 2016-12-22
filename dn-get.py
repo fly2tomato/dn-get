@@ -21,7 +21,7 @@ import os
 #import sys
 #import time
 from selenium import webdriver
-from bs4 import BeautifulSoup
+#from bs4 import BeautifulSoup
 
 url1 = 'http://www.dnvod.eu/'
 url2 = 'http://www.dnvod.eu/Movie/Readyplay.aspx?id=9Qm2PeBpd5s%3d'
