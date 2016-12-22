@@ -9,18 +9,19 @@
 #1，浏览器登录多瑙，进入影片播放页面，将播放页面的url复制，
 #2，然后在shell运行： python dn—get.py； 回车
 #3，输入复制的url，回车
-#4，获得真实播放地址，
 #5，对于av，获得的地址是2min预览版，请将url中的'2'换成'1'，如'cr-snyncjp-2.mp4'换成'cr-snyncjp-1.mp4'
-import cookielib
+#4，获得真实播放地址，
+#import cookielib
 import urllib
-import httplib
+#import httplib
 import urllib2
 import re
 import requests
 import os
-import sys
-import time
+#import sys
+#import time
 from selenium import webdriver
+from bs4 import BeautifulSoup
 
 url1 = 'http://www.dnvod.eu/'
 url2 = 'http://www.dnvod.eu/Movie/Readyplay.aspx?id=9Qm2PeBpd5s%3d'
@@ -68,7 +69,7 @@ def hdurl_print(real_url,para1,para2):
         #print num
         #print "低清版: \n"+real_url+'\n'
         hdurl0 = num[0] + 'hd-' + num[1] + '.mp4' + num[2]
-        hdurl = getRealUrl(hdurl0)
+        hdurl = getHDRealUrl(hdurl0,real_url)
         print " 高清版: \n"+hdurl+'\n'
     return hdurl
 
@@ -102,6 +103,30 @@ def get_play_url(searchUrl,headers):
         playUrl = 'http://www.dnvod.eu/Movie/Readyplay.aspx?id='+episode_list[whichEpisodeInt]
         return playUrl
 
+def suibiankankan(channel_url,total_num):
+    html_content = get_html_content(channel_url, headers)
+    match_movie_address = r'<a href="(.*%3d)">'
+    movie_address_list = regular_process(match_movie_address, html_content)
+    match_movie_name = r'%3d" title="(.*)">'
+    movie_name_list = regular_process(match_movie_name, html_content)
+    del movie_name_list[35]
+    del movie_name_list[36]
+    del movie_name_list[37]
+    match_movie_popular = r'color:#FD2525\'>(.*)</font>'
+    movie_popular_list = regular_process(match_movie_popular, html_content)
+    # print len(movie_address_list)
+    # print len(movie_name_list)
+    # print len(movie_popular_list)
+    for movie in range(total_num):
+        print '********************************'
+        print str(movie) + ': \n' + '影片：' + movie_name_list[movie] + '\n人气：' + movie_popular_list[movie]
+    input_movie_num = raw_input('\n请输入数字：')
+    print '影片《' + movie_name_list[int(input_movie_num)] + '》: '
+    detailUrl = 'http://www.dnvod.eu' + movie_address_list[int(input_movie_num)]
+    # print detailUrl
+    playUrl = get_play_url(detailUrl, headers)
+    main(playUrl, headers)
+
 def get_html_content(channel_url,header):
     searchRequest = urllib2.Request(channel_url,None,headers)
     searchResponse = urllib2.urlopen(searchRequest)
@@ -109,6 +134,9 @@ def get_html_content(channel_url,header):
     return searchdataResponse
 
 def regular_process(regular_str,html_con):
+    #soup = BeautifulSoup(html_con,"lxml")
+    #page_title = soup.title.string
+    #print soup.find_all('a')
     searchReg = regular_str
     searchPattern = re.compile(searchReg)
     searchResult = searchPattern.findall(html_con)
@@ -144,7 +172,7 @@ def getUserAgent():
     user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.98 Safari/537.36'
     return user_agent
 
-def getRealUrl(urlString):
+def getHDRealUrl(urlString,low_url):
     stringOne = urlString[26:]
     searchVodReg = r'/(.*)/'
     searchVodPattern = re.compile(searchVodReg)
@@ -178,7 +206,8 @@ def getRealUrl(urlString):
                         realVIPURL = urltoattend
                         break
                     except urllib2.HTTPError, e:
-                        print "获取高清播放地址中..."
+                        print "获取高清播放地址中("+str(i*3+j+1)+")..."
+                        realVIPURL = '无法获得高清地址，普清地址如下：\n'+low_url
     return  realVIPURL
 
 
@@ -187,8 +216,8 @@ def getRealUrl(urlString):
 
 #获取cookie，当网站出现5秒等待时，用这个方法获得cookie
 #cookies = 'ASP.NET_SessionId='+getCookies()
-#获取cookie，当网站未出现5秒等待时，用这个方法获得cookie
-cookies = 'ASP.NET_SessionId='+getSessionID(url2)[0]
+#获取cookie，当网站未出现5秒等待时，用这个方法
+cookies = 'ASP.NET_SessionId='+getSessionID(url2)[0]+";user=coF4mKWxa7hRoPjbrdbSi获得cookieK7JGOju4Ap/rTk61PVVlS1dIMx3WnCgwTTT9sR5GRp5/Y/8VhhDC4tIeqTIpgXcfRUTD0umtgDPeJCjL0XfLTDqvfjhl3RKIFhPDq1qKj5MeJ8BePXuXcaybSI2BHsQjr+gBUoddScN38wAn58q/RVe3/WzzNvtJCwx/lEZshl/lJvqIV1ynpkCUjsm"
 #以上两种方式都不可以时，尝试第三种
 #cookies = 'ASP.NET_SessionId=xzwrf4k0ulqctgt2boww5hk3'
 
@@ -229,35 +258,27 @@ while(loopString):
         main(playUrl,headers)
         loopString = False
     elif inputArg == '2':
-        input_channel = raw_input('\n选择频道：\n1,电影\n2,电视剧(开发中)\n3,综艺(开发中)\n4,动漫(开发中)\n请输入：')
-        if input_channel == '1':
+        input_channel = raw_input('\n选择频道：\n1,电影\n2,电视剧\n3,综艺\n4,动漫\n请输入：')
+        if input_channel == '1':#电影频道
             channel_url = 'http://www.dnvod.eu/Movie/List.aspx?CID=0,1,3'
-            html_content = get_html_content(channel_url,headers)
-            match_movie_address = r'<a href="(.*%3d)">'
-            movie_address_list = regular_process(match_movie_address,html_content)
-            match_movie_name = r'%3d" title="(.*)">'
-            movie_name_list = regular_process(match_movie_name,html_content)
-            del movie_name_list[35]
-            del movie_name_list[36]
-            del movie_name_list[37]
-            match_movie_popular = r'color:#FD2525\'>(.*)</font>'
-            movie_popular_list = regular_process(match_movie_popular,html_content)
-            #print len(movie_address_list)
-            #print len(movie_name_list)
-            #print len(movie_popular_list)
-            for movie in range(55):
-                print '********************************'
-                print str(movie)+': \n'+'影片：'+movie_name_list[movie]+'\n人气：'+movie_popular_list[movie]
-            input_movie_num = raw_input('\n请输入数字：')
-            detailUrl = 'http://www.dnvod.eu'+movie_address_list[int(input_movie_num)]
-            #print detailUrl
-            playUrl = get_play_url(detailUrl,headers)
-            main(playUrl,headers)
+            totalNum = 55 #
+            suibiankankan(channel_url,totalNum)
             loopString = False
-        elif input_channel == '2':
+        elif input_channel == '2':#电视剧频道
             channel_url = 'http://www.dnvod.eu/Movie/List.aspx?CID=0,1,4'
-        elif input_channel == '3':
+            total_num = 35  #
+            suibiankankan(channel_url, total_num)
+            loopString = False
+        elif input_channel == '3':#综艺频道
             channel_url = 'http://www.dnvod.eu/Movie/List.aspx?CID=0,1,5'
+            total_num = 35  #
+            suibiankankan(channel_url, total_num)
+            loopString = False
+        elif input_channel == '4':#综艺频道
+            channel_url = 'http://www.dnvod.eu/Movie/List.aspx?CID=0,1,6'
+            total_num = 35  #
+            suibiankankan(channel_url, total_num)
+            loopString = False
     elif inputArg == '3':
         inputMovieName = raw_input('\n查找视频名称：')
         if inputMovieName[0:2] == 'av':
