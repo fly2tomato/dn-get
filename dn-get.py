@@ -297,9 +297,9 @@ while(loopString):
         filmIdResult = regular_process(r'id=(.*%3d)',searchResult[whichResultInt])
         #print filmIdResult
         if inputMovieName[0:2] == 'av':
-    	    searchUrl = 'http://www.dnvod.eu/Adult/detail.aspx?id='+filmIdResult[0]
+            searchUrl = 'http://www.dnvod.eu/Adult/detail.aspx?id='+filmIdResult[0]
         else:
-    	    searchUrl = 'http://www.dnvod.eu/Movie/detail.aspx?id='+filmIdResult[0]
+            searchUrl = 'http://www.dnvod.eu/Movie/detail.aspx?id='+filmIdResult[0]
         playUrl = get_play_url(searchUrl,headers)
         print '播放页面URL：\n'+playUrl
         main(playUrl,headers)
