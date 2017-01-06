@@ -179,7 +179,7 @@ def getHDRealUrl(urlString,low_url):
     searchVodResult = searchVodPattern.findall(stringOne)
     whichTypeVod = searchVodResult
     vodString = whichTypeVod[0]
-    urlPre = urlString[:27]+vodString+'/'
+    urlPre = urlString[:15]+'dnplayer.tv/'+vodString+'/'
     urlPreLength = len(urlPre)
     urlMostimportant = urlString[urlPreLength:]
     vodList = ['vod','gvod','hvod','ivod','jvod','kvod','lvod','live']
@@ -191,7 +191,7 @@ def getHDRealUrl(urlString,low_url):
         realVIPURL = urltoattend
     except urllib2.URLError,e:
         for i in range(len(vodList)):
-            urltoattend = urlString[:27] + vodList[i] + '/' + urlMostimportant
+            urltoattend = urlString[:15] + 'dnplayer.tv/' + vodList[i] + '/' + urlMostimportant
             findrealRequest = urllib2.Request(urltoattend)
             #print urltoattend
             try:
