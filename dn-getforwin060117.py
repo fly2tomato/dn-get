@@ -37,32 +37,32 @@ def main(playUrl,headers):
     #print '\nKey:                '+keyString
     #print '\nASP.NET_SessionId:  '+sessionID
     if real_url == "-4":
-        print 'ASP.NET_SessionID已过期，请重新获取'
+        print 'ASP.NET_SessionID已过期，请重新获取'.decode('utf-8').encode('gbk')
     elif real_url == "-3":
-        print 'key错误，请重新设置key'
+        print 'key错误，请重新设置key'.decode('utf-8').encode('gbk')
     else:
         hdurl = hdurl_print(real_url,para1,para2)
-    bDownload = raw_input('\n是否需要下载视频到当前目录(for mac and linux only)？(y/n)')
+    bDownload = raw_input('\n是否需要下载视频到当前目录(for mac and linux only)？(y/n)'.decode('utf-8').encode('gbk'))
     if bDownload == 'y':
         os.system('axel -a -n 5 '+hdurl)
     else:
-        isPlay = raw_input('\n是否需要在线播放该视频(for mac and linux only)？(y/n)')
+        isPlay = raw_input('\n是否需要在线播放该视频(for mac and linux only)？(y/n)'.decode('utf-8').encode('gbk'))
         if isPlay == 'y':
             os.system('mplayer '+hdurl)
         else:
             print '\nlove & peace\nfly2tomato\n'
 
 def hdurl_print(real_url,para1,para2):
-    print "\n********真实播放地址（直接复制到浏览器打开或者用工具下载）：********\n"
+    print "\n********真实播放地址（直接复制到浏览器打开或者用工具下载）：********\n".decode('utf-8').encode('gbk')
     if cmp(para1,"Adult") == 0:
         pattern0 = re.compile(r'(\d||\d\d||\d_\d)\.mp4')
         num0 = re.split(pattern0,real_url)
         hdurl = num0[0]+'1'+'.mp4'+num0[2]
         if hdurl == real_url:
-            print '该片为免费资源，播放地址为：\n'+hdurl+'\n'
+            print '该片为免费资源，播放地址为：\n'+hdurl+'\n'.decode('utf-8').encode('gbk')
         else:
-            print '预览版: \n'+real_url+'\n'
-            print '完整版: \n'+hdurl+'\n'
+            print '预览版: \n'+real_url+'\n'.decode('utf-8').encode('gbk')
+            print '完整版: \n'+hdurl+'\n'.decode('utf-8').encode('gbk')
     else:
         pattern = re.compile(r'(\d||\d\d||\d\d\d||\d\d\d\d||\d\d\d\d\d||\d\d\d\d\d\d||\d\d\d\d\d\d\d||\d\d\d\d\d\d\d\d)\.mp4')
         num = re.split(pattern,real_url)
@@ -70,7 +70,7 @@ def hdurl_print(real_url,para1,para2):
         #print "低清版: \n"+real_url+'\n'
         hdurl0 = num[0] + 'hd-' + num[1] + '.mp4' + num[2]
         hdurl = getHDRealUrl(hdurl0,real_url)
-        print " 高清版: \n"+hdurl+'\n'
+        print " 高清版: \n".decode('utf-8').encode('gbk')+hdurl+'\n'.decode('utf-8').encode('gbk')
     return hdurl
 
 def get_real_url(playUrl,headers):
@@ -90,7 +90,7 @@ def get_play_url(searchUrl,headers):
     episode_list = regular_process(r'Readyplay.aspx\?id=(.*)" target',detail_content)
     totalEps = len(episode_list)
     #print detailResult
-    whichEpisodeStr = raw_input("一共有"+str(totalEps)+"集，请选择集数：")
+    whichEpisodeStr = raw_input("一共有".decode('utf-8').encode('gbk')+str(totalEps)+"集，请选择集数：".decode('utf-8').encode('gbk'))
     whichEpisodeInt = int(whichEpisodeStr)-1
     try:
         if inputMovieName[0:2] == 'av':
@@ -119,9 +119,9 @@ def suibiankankan(channel_url,total_num):
     # print len(movie_popular_list)
     for movie in range(total_num):
         print '********************************'
-        print str(movie) + ': \n' + '影片：' + movie_name_list[movie] + '\n人气：' + movie_popular_list[movie]
-    input_movie_num = raw_input('\n请输入数字：')
-    print '影片《' + movie_name_list[int(input_movie_num)] + '》: '
+        print str(movie) + ': \n' + '影片：'.decode('utf-8').encode('gbk') + movie_name_list[movie].decode('utf-8').encode('gbk') + '\n人气：'.decode('utf-8').encode('gbk') + movie_popular_list[movie].decode('utf-8').encode('gbk')
+    input_movie_num = raw_input('\n请输入数字：'.decode('utf-8').encode('gbk'))
+    print '\n影片《'.decode('utf-8').encode('gbk') + movie_name_list[int(input_movie_num)].decode('utf-8').encode('gbk') + '》 '.decode('utf-8').encode('gbk')
     detailUrl = 'http://www.dnvod.eu' + movie_address_list[int(input_movie_num)]
     # print detailUrl
     playUrl = get_play_url(detailUrl, headers)
@@ -193,7 +193,6 @@ def getHDRealUrl(urlString,low_url):
         for i in range(len(vodList)):
             urltoattend = urlString[:27] + vodList[i] + '/' + urlMostimportant
             findrealRequest = urllib2.Request(urltoattend)
-            #print urltoattend
             try:
                 findrealResponse = urllib2.urlopen(findrealRequest)
                 realVIPURL = urltoattend
@@ -201,15 +200,14 @@ def getHDRealUrl(urlString,low_url):
             except urllib2.URLError, e:
                 for j in range(len(serverList)):
                     urltoattend = 'http://' + serverList[j] + '.dnplayer.tv/' + vodList[i] + '/' + urlMostimportant
-                    #print urltoattend
                     try:
                         findrealRequest = urllib2.Request(urltoattend)
                         findrealResponse = urllib2.urlopen(findrealRequest)
                         realVIPURL = urltoattend
                         return realVIPURL
                     except urllib2.HTTPError, e:
-                        print "获取高清播放地址中("+str(i*3+j+1)+")..."
-                        realVIPURL = '无法获得高清地址，普清地址如下：\n'+low_url
+                        print "获取高清播放地址中(".decode('utf-8').encode('gbk')+str(i*3+j+1)+")...".decode('utf-8').encode('gbk')
+                        realVIPURL = '无法获得高清地址，普清地址如下：\n'.decode('utf-8').encode('gbk')+low_url
     return  realVIPURL
 
 
@@ -253,14 +251,15 @@ headers2 = {"Host": "www.dnvod.eu",
 
 loopString = True
 while(loopString):
-    inputArg = raw_input('\n*****************************\n* 1,直接输入多瑙观看页面URL *\n* 2,随便看看                *\n* 3,搜索影片                *\n*****************************\n\n请输入数字：')
+    print '\n*****************************\n* 1,直接输入多瑙观看页面URL *\n* 2,随便看看                *\n* 3,搜索影片                *\n*****************************\n\n'.decode('utf-8')
+    inputArg = raw_input('请输入数字：'.decode('utf-8').encode('gbk'))
     if inputArg == '1':
-        inputurl = raw_input('\n输入多瑙观看页面URL：\n')
+        inputurl = raw_input('\n输入多瑙观看页面URL：\n'.decode('utf-8').encode('gbk'))
         playUrl = inputurl
         main(playUrl,headers)
         loopString = False
     elif inputArg == '2':
-        input_channel = raw_input('\n选择频道：\n1,电影\n2,电视剧\n3,综艺\n4,动漫\n请输入：')
+        input_channel = raw_input('\n选择频道：\n1,电影\n2,电视剧\n3,综艺\n4,动漫\n请输入：'.decode('utf-8').encode('gbk'))
         if input_channel == '1':#电影频道
             channel_url = 'http://www.dnvod.eu/Movie/List.aspx?CID=0,1,3'
             totalNum = 55 #
@@ -282,7 +281,7 @@ while(loopString):
             suibiankankan(channel_url, total_num)
             loopString = False
     elif inputArg == '3':
-        inputMovieName = raw_input('\n查找视频名称：')
+        inputMovieName = raw_input('\n查找视频名称：'.decode('utf-8').encode('gbk'))
         if inputMovieName[0:2] == 'av':
             urlSearch = 'http://www.dnvod.eu/Adult/Search.aspx?tags='+inputMovieName[2:len(inputMovieName)]
         else:
@@ -291,10 +290,10 @@ while(loopString):
         searchResult = regular_process(r'<a href="(.*%3d)">',searchdataResponse)
         searchResultName = regular_process(r'3d" title="(.*)">',searchdataResponse)
         #print searchResult
-        print('搜索到'+str(len(searchResult))+'个结果：\n')
+        print('搜索到'+str(len(searchResult))+'个结果：\n'.decode('utf-8').encode('gbk'))
         for i in range(len(searchResultName)):
             print str(i+1)+': '+searchResultName[i]+'\n'
-        whichResultStr = raw_input('请输入数字：')
+        whichResultStr = raw_input('请输入数字：'.decode('utf-8').encode('gbk'))
         whichResultInt = int(whichResultStr)-1
         filmIdResult = regular_process(r'id=(.*%3d)',searchResult[whichResultInt])
         #print filmIdResult
@@ -303,8 +302,8 @@ while(loopString):
         else:
             searchUrl = 'http://www.dnvod.eu/Movie/detail.aspx?id='+filmIdResult[0]
         playUrl = get_play_url(searchUrl,headers)
-        print '播放页面URL：\n'+playUrl
+        print '播放页面URL：\n'.decode('utf-8')+playUrl
         main(playUrl,headers)
         loopString = False
     else:
-        print '\n输入错误，请重新输入'
+        print '\n输入错误，请重新输入'.decode('utf-8')
