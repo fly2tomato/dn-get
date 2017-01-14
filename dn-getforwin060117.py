@@ -173,7 +173,10 @@ def getUserAgent():
     return user_agent
 
 def getHDRealUrl(urlString,low_url):
-    stringOne = urlString[26:]
+    if 'ipv6' in urlString:#判断当前网络是否走ipv6通道（因为ipv6和ipv4获得的播放网址是不一样的）
+        stringOne = urlString[28:]
+    else:
+        stringOne = urlString[26:]
     searchVodReg = r'/(.*)/'
     searchVodPattern = re.compile(searchVodReg)
     searchVodResult = searchVodPattern.findall(stringOne)
@@ -181,7 +184,10 @@ def getHDRealUrl(urlString,low_url):
     vodString = whichTypeVod[0]
     urlPre = urlString[:15]+'dnplayer.tv/'+vodString+'/'
     urlPreLength = len(urlPre)
-    urlMostimportant = urlString[urlPreLength:]
+    if 'ipv6' in urlString:
+        urlMostimportant = urlString[urlPreLength+2:]
+    else:
+        urlMostimportant = urlString[urlPreLength:]
     vodList = ['vod','gvod','hvod','ivod','jvod','kvod','lvod','live']
     serverList = ['server1','server2','server3']
     try:
