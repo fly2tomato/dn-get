@@ -198,17 +198,17 @@ def getHDRealUrl(urlString,low_url):
         realVIPURL = urltoattend
     except urllib2.URLError,e:
         for i in range(len(vodList)):
-            urltoattend = urlString[:15] + 'duonao.tv/' + vodList[i] + '/' + urlMostimportant
+            urltoattend = urlString[:15] + 'dnplayer.tv/' + vodList[i] + '/' + urlMostimportant
             findrealRequest = urllib2.Request(urltoattend)
-            #print urltoattend
+            print urltoattend
             try:
                 findrealResponse = urllib2.urlopen(findrealRequest)
                 realVIPURL = urltoattend
                 return realVIPURL
             except urllib2.URLError, e:
                 for j in range(len(serverList)):
-                    urltoattend = 'http://' + serverList[j] + '.duonao.tv/' + vodList[i] + '/' + urlMostimportant
-                    #print urltoattend
+                    urltoattend = 'http://' + serverList[j] + '.dnplayer.tv/' + vodList[i] + '/' + urlMostimportant
+                    print urltoattend
                     try:
                         findrealRequest = urllib2.Request(urltoattend)
                         findrealResponse = urllib2.urlopen(findrealRequest)
