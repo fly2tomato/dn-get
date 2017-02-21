@@ -189,7 +189,8 @@ def getHDRealUrl(urlString,low_url):
     else:
         urlMostimportant = urlString[urlPreLength:]
     vodList = ['vod','gvod','hvod','ivod','jvod','kvod','lvod','live']
-    serverList = ['server1','server2','server3','server4','server5']
+    serverList = ['server1', 'server2', 'server3']
+    #serverList = ['server1','server2','server3','server4','server5']
     try:
         urltoattend =  urlPre+urlMostimportant
         findrealRequest = urllib2.Request(urltoattend)
@@ -225,9 +226,9 @@ def getHDRealUrl(urlString,low_url):
 #获取cookie，当网站出现5秒等待时，用这个方法获得cookie
 #cookies = 'ASP.NET_SessionId='+getCookies()
 #获取cookie，当网站未出现5秒等待时，用这个方法
-cookies = 'ASP.NET_SessionId='+getSessionID(url2)[0]+";user=coF4mKWxa7hRoPjbrdbSi获得cookieK7JGOju4Ap/rTk61PVVlS1dIMx3WnCgwTTT9sR5GRp5/Y/8VhhDC4tIeqTIpgXcfRUTD0umtgDPeJCjL0XfLTDqvfjhl3RKIFhPDq1qKj5MeJ8BePXuXcaybSI2BHsQjr+gBUoddScN38wAn58q/RVe3/WzzNvtJCwx/lEZshl/lJvqIV1ynpkCUjsm"
+#cookies = 'ASP.NET_SessionId='+getSessionID(url2)[0]+";user=coF4mKWxa7hRoPjbrdbSi获得cookieK7JGOju4Ap/rTk61PVVlS1dIMx3WnCgwTTT9sR5GRp5/Y/8VhhDC4tIeqTIpgXcfRUTD0umtgDPeJCjL0XfLTDqvfjhl3RKIFhPDq1qKj5MeJ8BePXuXcaybSI2BHsQjr+gBUoddScN38wAn58q/RVe3/WzzNvtJCwx/lEZshl/lJvqIV1ynpkCUjsm"
 #以上两种方式都不可以时，尝试第三种
-#cookies = 'ASP.NET_SessionId=xzwrf4k0ulqctgt2boww5hk3'
+cookies = 'ASP.NET_SessionId=xzwrf4k0ulqctgt2boww5hk3'
 
 #构建user agent
 user_agent = getUserAgent()
