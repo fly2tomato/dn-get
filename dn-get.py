@@ -182,7 +182,7 @@ def getHDRealUrl(urlString,low_url):
     searchVodResult = searchVodPattern.findall(stringOne)
     whichTypeVod = searchVodResult
     vodString = whichTypeVod[0]
-    urlPre = urlString[:15]+'duonao.tv/'+vodString+'/'
+    urlPre = urlString[:15]+'dnplayer.tv/'+vodString+'/'
     urlPreLength = len(urlPre)
     if 'ipv6' in urlString:
         urlMostimportant = urlString[urlPreLength+2:]
