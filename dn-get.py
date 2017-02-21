@@ -189,7 +189,7 @@ def getHDRealUrl(urlString,low_url):
     else:
         urlMostimportant = urlString[urlPreLength:]
     vodList = ['vod','gvod','hvod','ivod','jvod','kvod','lvod','live']
-    serverList = ['server1','server2','server3']
+    serverList = ['server1','server2','server3','server4','server5']
     try:
         urltoattend =  urlPre+urlMostimportant
         findrealRequest = urllib2.Request(urltoattend)
