@@ -174,9 +174,9 @@ def getUserAgent():
 
 def getHDRealUrl(urlString,low_url):
     if 'ipv6' in urlString:#判断当前网络是否走ipv6通道（因为ipv6和ipv4获得的播放网址是不一样的）
-        stringOne = urlString[26:]
+        stringOne = urlString[26:36]
     else:
-        stringOne = urlString[24:]
+        stringOne = urlString[24:34]
     searchVodReg = r'/(.*)/'
     searchVodPattern = re.compile(searchVodReg)
     searchVodResult = searchVodPattern.findall(stringOne)
@@ -190,7 +190,7 @@ def getHDRealUrl(urlString,low_url):
         urlMostimportant = urlString[urlPreLength:]
     vodList = ['vod','gvod','hvod','ivod','jvod','kvod','lvod','live']
     #serverList = ['server1', 'server2', 'server3']
-    serverList = ['server1','server2','server3','server4','server5']
+    serverList = ['server1','server2','server3','server4','server5','server6']
     try:
         urltoattend =  urlPre+urlMostimportant
         findrealRequest = urllib2.Request(urltoattend)
@@ -200,7 +200,7 @@ def getHDRealUrl(urlString,low_url):
         for i in range(len(vodList)):
             urltoattend = urlString[:15] + 'dnplayer.tv/' + vodList[i] + '/' + urlMostimportant
             findrealRequest = urllib2.Request(urltoattend)
-            #print urltoattend 
+            #print urltoattend
             try:
                 findrealResponse = urllib2.urlopen(findrealRequest)
                 realVIPURL = urltoattend
@@ -215,7 +215,7 @@ def getHDRealUrl(urlString,low_url):
                         realVIPURL = urltoattend
                         return realVIPURL
                     except urllib2.HTTPError, e:
-                        print "获取高清播放地址中("+str(i*3+j+1)+")..."
+                        print "获取高清播放地址中("+str(i*6+j+1)+")..."
                         realVIPURL = '无法获得高清地址，普清地址如下：\n'+low_url
     return  realVIPURL
 
