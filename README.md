@@ -8,10 +8,11 @@ by fly2tomato
 
 
 # update
-  -【14.03.2017】完善了windows版exe文件
-  -【29.07.2016】增加了高清片源url  
-  -【01.08.2016】自动获取ASP.NET_SessionId（该值是否作为cookie中唯一判断标准，待检验）  
-  -【02.08.2016】发布windows下的可执行文件dn-get.exe
+  - 【14.03.2017】完善了windows版exe文件
+  - 【02.08.2016】发布windows下的可执行文件dn-get.exe
+  - 【01.08.2016】自动获取ASP.NET_SessionId（该值是否作为cookie中唯一判断标准，待检验）
+  - 【29.07.2016】增加了高清片源url  
+  
 
 # 实现功能：
 
