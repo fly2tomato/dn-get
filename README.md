@@ -12,7 +12,7 @@ by fly2tomato
   - 【02.08.2016】发布windows下的可执行文件dn-get.exe
   - 【01.08.2016】自动获取ASP.NET_SessionId（该值是否作为cookie中唯一判断标准，待检验）
   - 【29.07.2016】增加了高清片源url  
-  
+
 
 # 实现功能：
 
@@ -41,6 +41,9 @@ by fly2tomato
 
 ### 通过.py文件运行：
 
-  1. 下载idle
-  2. 下载dn-getforwin140317.py
-  3. 用idle打开dn-getforwinxxxxxx.py
+  1. 下载`idle`
+  2. 下载`dn-getforwin140317.py`
+  3. 用`idle`打开`dn-getforwinxxxxxx.py`
+
+
+![](forkyou.png)
