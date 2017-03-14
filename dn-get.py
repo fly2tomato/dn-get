@@ -70,7 +70,7 @@ def hdurl_print(real_url,para1,para2):
         #print "低清版: \n"+real_url+'\n'
         hdurl0 = num[0] + 'hd-' + num[1] + '.mp4' + num[2]
         hdurl = getHDRealUrl(hdurl0,real_url)
-        print " 高清版: \n"+hdurl+'\n'
+        print " 高清版: \n"+hdurl[:hdurl.index("<>")]+'\n'
     return hdurl
 
 def get_real_url(playUrl,headers):
