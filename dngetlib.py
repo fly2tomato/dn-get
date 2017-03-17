@@ -7,27 +7,8 @@ import re
 import requests
 import os
 
+from selenium import webdriver
 
-user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'
-#获取cookie，当网站出现5秒等待时，用这个方法获得cookie
-#cookies = 'ASP.NET_SessionId='+getCookies()
-#获取cookie，当网站未出现5秒等待时，用这个方法
-#cookies = 'ASP.NET_SessionId='+getSessionID(url2)[0]+";user=coF4mKWxa7hRoPjbrdbSi获得cookieK7JGOju4Ap/rTk61PVVlS1dIMx3WnCgwTTT9sR5GRp5/Y/8VhhDC4tIeqTIpgXcfRUTD0umtgDPeJCjL0XfLTDqvfjhl3RKIFhPDq1qKj5MeJ8BePXuXcaybSI2BHsQjr+gBUoddScN38wAn58q/RVe3/WzzNvtJCwx/lEZshl/lJvqIV1ynpkCUjsm"
-#以上两种方式都不可以时，尝试第三种
-cookies = 'ASP.NET_SessionId=xzwrf4k0ulqctgt2boww5hk3'
-#构建user agent
-#user_agent = getUserAgent()
-#构建headers
-headers = {"User-Agent": user_agent,
-"Content-Type": "application/x-www-form-urlencoded",
-"Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-"Referer": "http://www.dnvod.eu/",
-#"Content-Length": "36",
-"Accept-Encoding": "",
-"Accept-Language": "de-DE,de;q=0.8,en-US;q=0.6,en;q=0.4,zh-CN;q=0.2,zh;q=0.2,zh-TW;q=0.2,fr-FR;q=0.2,fr;q=0.2",
-"X-Requested-With": "XMLHttpRequest",
-"DNT": "1",
-"Cookie": cookies}
 
 def dnget(playUrl):
     real_url = get_real_url(playUrl)
@@ -137,7 +118,7 @@ def getSessionID (url2):
 def getCookies():
     #brower = webdriver.Chrome('/Users/Junior/dev/python/chromedriver')
     brower1 = webdriver.PhantomJS(executable_path="/Users/Junior/dev/python/phantomjs-2.1.1-macosx/bin/phantomjs")
-    brower1.get(url2)
+    brower1.get('http://www.dnvod.eu')
     cookies = brower1.get_cookies()
     cookie = cookies[5]
     cooki = cookie["value"]
@@ -221,6 +202,46 @@ def suibiankankan(channel_url,total_num):
 
 def main():
     pass
+
+user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'
+#获取cookie，当网站出现5秒等待时，用这个方法获得cookie
+#cookies = 'ASP.NET_SessionId='+getCookies()
+#获取cookie，当网站未出现5秒等待时，用这个方法
+#cookies = 'ASP.NET_SessionId='+getSessionID(url2)[0]+";user=coF4mKWxa7hRoPjbrdbSi获得cookieK7JGOju4Ap/rTk61PVVlS1dIMx3WnCgwTTT9sR5GRp5/Y/8VhhDC4tIeqTIpgXcfRUTD0umtgDPeJCjL0XfLTDqvfjhl3RKIFhPDq1qKj5MeJ8BePXuXcaybSI2BHsQjr+gBUoddScN38wAn58q/RVe3/WzzNvtJCwx/lEZshl/lJvqIV1ynpkCUjsm"
+#以上两种方式都不可以时，尝试第三种
+cookies = 'ASP.NET_SessionId=2lqcrdhawwktwghswomwexvx;__cfduid=d72fc02c5d6108da6ccd79f1d52d34cca1489791403; cf_clearance=4e2d13959d91fbe3618272adf861fe9dfcb31d30-1489791563-28800'
+#构建user agent
+#user_agent = getUserAgent()
+#构建headers
+'''
+headers = {
+    "Host": "www.dnvod.eu",
+    "Upgrade-Insecure-Requests": "1",
+    "User-Agent": user_agent,
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+    "DNT": "1",
+    "Referer": "http://www.dnvod.eu/",
+    "Accept-Encoding": "",
+    "Accept-Language": "de-DE,de;q=0.8,en-US;q=0.6,en;q=0.4,zh-CN;q=0.2,zh;q=0.2,zh-TW;q=0.2,fr-FR;q=0.2,fr;q=0.2",
+    "Cookie": cookies+'__cfduid=d72fc02c5d6108da6ccd79f1d52d34cca1489791403; cf_clearance=4e2d13959d91fbe3618272adf861fe9dfcb31d30-1489791563-28800'
+}
+'''
+headers = {
+    "User-Agent": user_agent,
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+    "Referer": "http://www.dnvod.eu/",
+    #"Content-Length": "36",
+    "Accept-Encoding": "",
+    "Accept-Language": "de-DE,de;q=0.8,en-US;q=0.6,en;q=0.4,zh-CN;q=0.2,zh;q=0.2,zh-TW;q=0.2,fr-FR;q=0.2,fr;q=0.2",
+    "X-Requested-With": "XMLHttpRequest",
+    "DNT": "1",
+    "Cookie": cookies
+
+}
+
+
+
 
 if __name__ == '__main__':
     main()
