@@ -39,7 +39,8 @@ def dn(playUrl,headers):
     elif real_url == "-3":
         print 'key错误，请重新设置key'
     else:
-        hdurl = dngetlib.hdurl_print(real_url,para1,para2)
+        #hdurl = dngetlib.hdurl_print(real_url,para1,para2)
+        hdurl = real_url
     bDownload = raw_input('\n是否需要下载视频到当前目录(for mac and linux only)？(y/n)')
     if bDownload == 'y':
         os.system('axel -a -n 5 '+hdurl)

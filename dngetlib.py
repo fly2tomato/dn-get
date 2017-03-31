@@ -27,7 +27,7 @@ def dnget(playUrl):
         print 'key错误，请重新设置key'
         hdurl = 'key错误，请重新设置key'
     else:
-        hdurl = hdurl_print(real_url,para1,para2)
+        hdurl = hdurl_print(real_url,para1,para2)#高清版规则失效，期待有个vip账户来解惑
     return hdurl
 
 def hdurl_print(real_url,para1,para2):
@@ -40,7 +40,7 @@ def hdurl_print(real_url,para1,para2):
             print '该片为免费资源，播放地址为：\n'+hdurl+'\n'
         else:
             print '预览版: \n'+real_url+'\n'
-            print '完整版: \n'+hdurl+'\n'
+            print '完整版(已失效): \n'+hdurl+'\n'
     else:
         pattern = re.compile(r'(\d||\d\d||\d\d\d||\d\d\d\d||\d\d\d\d\d||\d\d\d\d\d\d||\d\d\d\d\d\d\d||\d\d\d\d\d\d\d\d)\.mp4')
         num = re.split(pattern,real_url)
@@ -48,7 +48,7 @@ def hdurl_print(real_url,para1,para2):
         #print "低清版: \n"+real_url+'\n'
         hdurl0 = num[0] + 'hd-' + num[1] + '.mp4' + num[2]
         hdurl = getHDRealUrl(hdurl0,real_url)
-        print " 高清版: \n"+hdurl+'\n'
+        print " 影片地址: \n"+real_url+'\n'
     return hdurl
 
 def get_real_url(playUrl):
