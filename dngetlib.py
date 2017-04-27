@@ -55,7 +55,7 @@ def get_real_url(playUrl):
     data_responseFir = get_html_content(playUrl)
     para1 = playUrl[20:25]#Adult or Movie
     para2 = regular_process(r'id:.*\'(.*)\',',data_responseFir)[0]
-    urlSec = 'http://www.dnvod.eu/'+para1+'/GetResource.ashx?id='+para2+'&type=htm'
+    urlSec = 'http://www.dnvod.tv/'+para1+'/GetResource.ashx?id='+para2+'&type=htm'
     keyString = regular_process(r'key:.*\'(.*)\',',data_responseFir)[0]
     data = urllib.urlencode({'key':keyString})
     requestSec = urllib2.Request(urlSec,data,headers)
@@ -73,13 +73,13 @@ def get_play_url(searchUrl):
     whichEpisodeInt = int(whichEpisodeStr)-1
     try:
         if inputMovieName[0:2] == 'av':
-            playUrl = 'http://www.dnvod.eu/Adult/Readyplay.aspx?id='+episode_list[whichEpisodeInt]
+            playUrl = 'http://www.dnvod.tv/Adult/Readyplay.aspx?id='+episode_list[whichEpisodeInt]
             return playUrl
         else:
-            playUrl = 'http://www.dnvod.eu/Movie/Readyplay.aspx?id='+episode_list[whichEpisodeInt]
+            playUrl = 'http://www.dnvod.tv/Movie/Readyplay.aspx?id='+episode_list[whichEpisodeInt]
             return playUrl
     except:
-        playUrl = 'http://www.dnvod.eu/Movie/Readyplay.aspx?id='+episode_list[whichEpisodeInt]
+        playUrl = 'http://www.dnvod.tv/Movie/Readyplay.aspx?id='+episode_list[whichEpisodeInt]
         return playUrl
 
 
@@ -118,7 +118,7 @@ def getSessionID (url2):
 def getCookies():
     #brower = webdriver.Chrome('/Users/Junior/dev/python/chromedriver')
     brower1 = webdriver.PhantomJS(executable_path="/Users/Junior/dev/python/phantomjs-2.1.1-macosx/bin/phantomjs")
-    brower1.get('http://www.dnvod.eu')
+    brower1.get('http://www.dnvod.tv')
     cookies = brower1.get_cookies()
     cookie = cookies[5]
     cooki = cookie["value"]
@@ -194,7 +194,7 @@ def suibiankankan(channel_url,total_num):
         print str(movie) + ': \n' + '影片：' + movie_name_list[movie] + '\n人气：' + movie_popular_list[movie]
     input_movie_num = raw_input('\n请输入数字：')
     print '\n影片《' + movie_name_list[int(input_movie_num)] + '》 '
-    detailUrl = 'http://www.dnvod.eu' + movie_address_list[int(input_movie_num)]
+    detailUrl = 'http://www.dnvod.tv' + movie_address_list[int(input_movie_num)]
     # print detailUrl
     playUrl = get_play_url(detailUrl)
     dnget(playUrl)
@@ -215,12 +215,12 @@ cookies = 'ASP.NET_SessionId=2lqcrdhawwktwghswomwexvx;__cfduid=d72fc02c5d6108da6
 #构建headers
 '''
 headers = {
-    "Host": "www.dnvod.eu",
+    "Host": "www.dnvod.tv",
     "Upgrade-Insecure-Requests": "1",
     "User-Agent": user_agent,
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
     "DNT": "1",
-    "Referer": "http://www.dnvod.eu/",
+    "Referer": "http://www.dnvod.tv/",
     "Accept-Encoding": "",
     "Accept-Language": "de-DE,de;q=0.8,en-US;q=0.6,en;q=0.4,zh-CN;q=0.2,zh;q=0.2,zh-TW;q=0.2,fr-FR;q=0.2,fr;q=0.2",
     "Cookie": cookies+'__cfduid=d72fc02c5d6108da6ccd79f1d52d34cca1489791403; cf_clearance=4e2d13959d91fbe3618272adf861fe9dfcb31d30-1489791563-28800'
@@ -230,7 +230,7 @@ headers = {
     "User-Agent": user_agent,
     "Content-Type": "application/x-www-form-urlencoded",
     "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-    "Referer": "http://www.dnvod.eu/",
+    "Referer": "http://www.dnvod.tv/",
     #"Content-Length": "36",
     "Accept-Encoding": "",
     "Accept-Language": "de-DE,de;q=0.8,en-US;q=0.6,en;q=0.4,zh-CN;q=0.2,zh;q=0.2,zh-TW;q=0.2,fr-FR;q=0.2,fr;q=0.2",

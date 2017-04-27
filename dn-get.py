@@ -21,8 +21,8 @@ import os
 import dngetlib
 
 
-url1 = 'http://www.dnvod.eu/'
-url2 = 'http://www.dnvod.eu/Movie/Readyplay.aspx?id=9Qm2PeBpd5s%3d'
+url1 = 'http://www.dnvod.tv/'
+url2 = 'http://www.dnvod.tv/Movie/Readyplay.aspx?id=9Qm2PeBpd5s%3d'
 
 def dn(playUrl,headers):
     real_url = dngetlib.get_real_url(playUrl)
@@ -63,31 +63,31 @@ def main():
         elif inputArg == '2':
             input_channel = raw_input('\n选择频道：\n1,电影\n2,电视剧\n3,综艺\n4,动漫\n请输入：')
             if input_channel == '1':#电影频道
-                channel_url = 'http://www.dnvod.eu/Movie/List.aspx?CID=0,1,3'
+                channel_url = 'http://www.dnvod.tv/Movie/List.aspx?CID=0,1,3'
                 totalNum = 55 #
                 dngetlib.suibiankankan(channel_url,totalNum)
                 loopString = False
             elif input_channel == '2':#电视剧频道
-                channel_url = 'http://www.dnvod.eu/Movie/List.aspx?CID=0,1,4'
+                channel_url = 'http://www.dnvod.tv/Movie/List.aspx?CID=0,1,4'
                 total_num = 35  #
                 dngetlib.suibiankankan(channel_url, total_num)
                 loopString = False
             elif input_channel == '3':#综艺频道
-                channel_url = 'http://www.dnvod.eu/Movie/List.aspx?CID=0,1,5'
+                channel_url = 'http://www.dnvod.tv/Movie/List.aspx?CID=0,1,5'
                 total_num = 35  #
                 dngetlib.suibiankankan(channel_url, total_num)
                 loopString = False
             elif input_channel == '4':#综艺频道
-                channel_url = 'http://www.dnvod.eu/Movie/List.aspx?CID=0,1,6'
+                channel_url = 'http://www.dnvod.tv/Movie/List.aspx?CID=0,1,6'
                 total_num = 35  #
                 dngetlib.suibiankankan(channel_url, total_num)
                 loopString = False
         elif inputArg == '3':
             inputMovieName = raw_input('\n查找视频名称：')
             if inputMovieName[0:2] == 'av':
-                urlSearch = 'http://www.dnvod.eu/Adult/Search.aspx?tags='+inputMovieName[2:len(inputMovieName)]
+                urlSearch = 'http://www.dnvod.tv/Adult/Search.aspx?tags='+inputMovieName[2:len(inputMovieName)]
             else:
-                urlSearch = 'http://www.dnvod.eu/Movie/Search.aspx?tags='+inputMovieName
+                urlSearch = 'http://www.dnvod.tv/Movie/Search.aspx?tags='+inputMovieName
             searchdataResponse = dngetlib.get_html_content(urlSearch)
             searchResult = dngetlib.regular_process(r'<a href="(.*%3d)">',searchdataResponse)
             searchResultName = dngetlib.regular_process(r'3d" title="(.*)">',searchdataResponse)
@@ -100,9 +100,9 @@ def main():
             filmIdResult = dngetlib.regular_process(r'id=(.*%3d)',searchResult[whichResultInt])
             #print filmIdResult
             if inputMovieName[0:2] == 'av':
-                searchUrl = 'http://www.dnvod.eu/Adult/detail.aspx?id='+filmIdResult[0]
+                searchUrl = 'http://www.dnvod.tv/Adult/detail.aspx?id='+filmIdResult[0]
             else:
-                searchUrl = 'http://www.dnvod.eu/Movie/detail.aspx?id='+filmIdResult[0]
+                searchUrl = 'http://www.dnvod.tv/Movie/detail.aspx?id='+filmIdResult[0]
             playUrl = dngetlib.get_play_url(searchUrl)
             print '播放页面URL：\n'+playUrl
             dngetlib.dnget(playUrl)
@@ -114,4 +114,3 @@ def main():
 ####程序从这里开始！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！！
 if __name__ == '__main__':
     main()
-    
