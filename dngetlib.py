@@ -45,10 +45,10 @@ def hdurl_print(real_url,para1,para2):
         pattern = re.compile(r'(\d||\d\d||\d\d\d||\d\d\d\d||\d\d\d\d\d||\d\d\d\d\d\d||\d\d\d\d\d\d\d||\d\d\d\d\d\d\d\d)\.mp4')
         num = re.split(pattern,real_url)
         #print num
-        #print "低清版: \n"+real_url+'\n'
+        print "普清版地址: \n"+real_url+'\n'
         hdurl0 = num[0] + 'hd-' + num[1] + '.mp4' + num[2]
         hdurl = getHDRealUrl(hdurl0,real_url)
-        print " 影片地址: \n"+real_url+'\n'
+        print "影片高清地址: \n"+hdurl+'\n'
     return hdurl
 
 def get_real_url(playUrl):
@@ -61,7 +61,9 @@ def get_real_url(playUrl):
     requestSec = urllib2.Request(urlSec,data,headers)
     responseSec = urllib2.urlopen(requestSec)
     real_url = responseSec.read()
-    real_url = regular_process(r'<>(.*)<>',real_url)[0]
+    #print real_url
+    real_url = regular_process(r'"provider":"(http.*)"}}',real_url)[0]
+    #print real_url
     return real_url
 
 def get_play_url(searchUrl):
