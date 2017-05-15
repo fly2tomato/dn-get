@@ -68,7 +68,9 @@ def get_real_url(playUrl):
 
 def get_play_url(searchUrl):
     detail_content = get_html_content(searchUrl)
-    episode_list = regular_process(r'Readyplay.aspx\?id=(.*)" target',detail_content)
+    #print detail_content
+    episode_list = regular_process(r'Readyplay.aspx\?id=(.*)"\s*target',detail_content)
+    #print episode_list
     totalEps = len(episode_list)
     #print detailResult
     whichEpisodeStr = raw_input("一共有"+str(totalEps)+"集，请选择集数：")
@@ -181,11 +183,10 @@ def suibiankankan(channel_url,total_num):
     html_content = get_html_content(channel_url)
     match_movie_address = r'<a href="(.*%3d)">'
     movie_address_list = regular_process(match_movie_address, html_content)
+    #print movie_address_list
     match_movie_name = r'%3d" title="(.*)">'
     movie_name_list = regular_process(match_movie_name, html_content)
-    del movie_name_list[35]
-    del movie_name_list[36]
-    del movie_name_list[37]
+    del movie_name_list[35:38]
     match_movie_popular = r'color:#FD2525\'>(.*)</font>'
     movie_popular_list = regular_process(match_movie_popular, html_content)
     # print len(movie_address_list)
