@@ -103,6 +103,7 @@ def main():
                 searchUrl = 'http://www.dnvod.tv/Adult/detail.aspx?id='+filmIdResult[0]
             else:
                 searchUrl = 'http://www.dnvod.tv/Movie/detail.aspx?id='+filmIdResult[0]
+            dngetlib.set_inputNM(inputMovieName)
             playUrl = dngetlib.get_play_url(searchUrl)
             print '播放页面URL：\n'+playUrl
             dngetlib.dnget(playUrl)

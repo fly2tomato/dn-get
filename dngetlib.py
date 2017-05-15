@@ -10,6 +10,8 @@ import os
 from selenium import webdriver
 
 
+inputMovieName = ''
+
 def dnget(playUrl):
     real_url = get_real_url(playUrl)
     #print real_url
@@ -83,6 +85,9 @@ def get_play_url(searchUrl):
     except:
         playUrl = 'http://www.dnvod.tv/Movie/Readyplay.aspx?id='+episode_list[whichEpisodeInt]
         return playUrl
+
+def set_inputNM(name):
+    inputMovieName = name
 
 
 def get_html_content(channel_url):

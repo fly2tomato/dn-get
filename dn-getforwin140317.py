@@ -70,8 +70,8 @@ def hdurl_print(real_url,para1,para2):
         #print "低清版: \n"+real_url+'\n'
         hdurl0 = num[0] + 'hd-' + num[1] + '.mp4' + num[2]
         hdurl = getHDRealUrl(hdurl0,real_url)
-        print " 高清版: \n".decode('utf-8').encode('gbk')+hdurl[:hdurl.index("<>")]+'\n'.decode('utf-8').encode('gbk')
-    return hdurl[:hdurl.index("<>")]
+        print " 高清版: \n".decode('utf-8').encode('gbk')+hdurl+'\n'.decode('utf-8').encode('gbk')
+    return hdurl
 
 def get_real_url(playUrl,headers):
     data_responseFir = get_html_content(playUrl,headers)
@@ -185,9 +185,9 @@ def getHDRealUrl(urlString,low_url):
     urlPre = urlString[:15]+'dnplayer.tv/'+vodString+'/'
     urlPreLength = len(urlPre)
     if 'ipv6' in urlString:
-        urlMostimportant = urlString[urlPreLength+2:]
+        urlMostimportant = urlString[urlPreLength+2:urlString.index('<>')]
     else:
-        urlMostimportant = urlString[urlPreLength:]
+        urlMostimportant = urlString[urlPreLength:urlString.index('<>')]
     vodList = ['vod','gvod','hvod','ivod','jvod','kvod','lvod','live']
     serverList = ['server1','server2','server3','server4','server5','server6']
     try:
