@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="88b42b6a-723f-4b9e-bba6-8098cee78994" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dn-get.py" afterPath="$PROJECT_DIR$/dn-get.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dn-getforwin140317.py" afterPath="$PROJECT_DIR$/dn-getforwin140317.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dngetlib.py" afterPath="$PROJECT_DIR$/dngetlib.py" />
-    </list>
+    <list default="true" id="88b42b6a-723f-4b9e-bba6-8098cee78994" name="Default" comment="" />
     <ignored path="dn-get.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -41,8 +35,8 @@
       <file leaf-file-name="dngetlib.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dngetlib.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="315">
-              <caret line="89" column="25" lean-forward="true" selection-start-line="89" selection-start-column="25" selection-end-line="89" selection-end-column="25" />
+            <state relative-caret-position="345">
+              <caret line="91" column="25" lean-forward="true" selection-start-line="91" selection-start-column="25" selection-end-line="91" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -835,8 +829,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dngetlib.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="89" column="25" lean-forward="true" selection-start-line="89" selection-start-column="25" selection-end-line="89" selection-end-column="25" />
+        <state relative-caret-position="345">
+          <caret line="91" column="25" lean-forward="true" selection-start-line="91" selection-start-column="25" selection-end-line="91" selection-end-column="25" />
           <folding />
         </state>
       </provider>
